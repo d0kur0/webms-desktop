@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from "electron";
-import { registerAppProtocol } from "electron/utils/registerAppProtocol";
 import "electron/events";
 
 if (require("electron-squirrel-startup")) {
@@ -17,8 +16,6 @@ const WINDOW_HEIGHT = 900;
 const DEVTOOLS_WIDTH = 500;
 
 let mainWindow: BrowserWindow = null;
-
-registerAppProtocol(app);
 
 const createWindow = (): void => {
 	mainWindow = new BrowserWindow({

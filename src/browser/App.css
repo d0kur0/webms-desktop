@@ -6,6 +6,7 @@ body {
 	font-size: 0.95em;
 	font-weight: 400;
 	margin: auto;
+	line-height: 1;
 }
 
 a {
@@ -23,7 +24,7 @@ a:hover {
 	--text-color: #1e1e1e;
 	--text-color-dark: #000000;
 
-	--toolbar-background: #cdcdcd;
+	--toolbar-background: #dfdfdf;
 	--toolbar-text-color: #000;
 
 	--edge-padding: 10px;

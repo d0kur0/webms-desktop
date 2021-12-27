@@ -1,18 +1,24 @@
 .toolBar {
 	list-style: none;
 	display: flex;
+	align-items: center;
 	font-size: 0.9em;
-	margin: 0 -10px;
+	margin: 0;
 	font-weight: 500;
-	padding: 4px var(--edge-padding);
+	padding: 5px 0;
 	background-color: var(--toolbar-background);
 	color: var(--toolbar-text-color);
 }
 
-.toolBar a {
-	color: var(--toolbar-text-color);
+.toolBar > li {
+	margin: 0 var(--edge-padding);
 }
 
-.toolBar > li {
-	margin: 0 10px;
+.toolBar a {
+	display: flex;
+	align-items: center;
+	color: var(--toolbar-text-color);
+}
+.toolBar a > svg {
+	padding-right: 3px;
 }
