@@ -1,0 +1,30 @@
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji";
+	background-color: var(--background-color);
+	color: var(--text-color);
+	font-size: 0.95em;
+	font-weight: 400;
+	margin: auto;
+}
+
+a {
+	color: var(--text-color);
+	text-decoration: none;
+	transition: 0.3s;
+}
+
+a:hover {
+	color: var(--text-color-dark);
+}
+
+:root {
+	--background-color: #ececec;
+	--text-color: #1e1e1e;
+	--text-color-dark: #000000;
+
+	--toolbar-background: #d8d1ff;
+	--toolbar-text-color: #443693;
+
+	--edge-padding: 10px;
+}

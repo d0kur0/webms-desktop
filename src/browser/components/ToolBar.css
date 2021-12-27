@@ -1,0 +1,18 @@
+.toolBar {
+	list-style: none;
+	display: flex;
+	font-size: 0.9em;
+	margin: 0 -8px;
+	font-weight: 500;
+	padding: 4px var(--edge-padding);
+	background-color: var(--toolbar-background);
+	color: var(--toolbar-text-color);
+}
+
+.toolBar a {
+	color: var(--toolbar-text-color);
+}
+
+.toolBar > li {
+	margin: 0 8px;
+}
