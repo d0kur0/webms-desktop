@@ -2,7 +2,7 @@
 	list-style: none;
 	display: flex;
 	font-size: 0.9em;
-	margin: 0 -8px;
+	margin: 0 -10px;
 	font-weight: 500;
 	padding: 4px var(--edge-padding);
 	background-color: var(--toolbar-background);
@@ -14,5 +14,5 @@
 }
 
 .toolBar > li {
-	margin: 0 8px;
+	margin: 0 10px;
 }

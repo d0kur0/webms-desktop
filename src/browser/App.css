@@ -23,8 +23,8 @@ a:hover {
 	--text-color: #1e1e1e;
 	--text-color-dark: #000000;
 
-	--toolbar-background: #d8d1ff;
-	--toolbar-text-color: #443693;
+	--toolbar-background: #cdcdcd;
+	--toolbar-text-color: #000;
 
 	--edge-padding: 10px;
 }
