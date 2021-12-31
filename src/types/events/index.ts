@@ -1,14 +1,20 @@
 export enum EventsMap {
-	OPEN_APP = "openApp",
-	TEST = "test",
+	WINDOW_GET_FULLSCREEN_STATE = "windowGetFullScreenState",
+	WINDOW_FULLSCREEN_TOGGLE = "windowFullScreenToggle",
+	WINDOW_MINIMIZE = "windowMinimize",
+	WINDOW_CLOSE = "windowClose",
 }
 
 export type EventsProps = {
-	[EventsMap.OPEN_APP]: void;
-	[EventsMap.TEST]: string;
+	[EventsMap.WINDOW_GET_FULLSCREEN_STATE]: void;
+	[EventsMap.WINDOW_FULLSCREEN_TOGGLE]: void;
+	[EventsMap.WINDOW_MINIMIZE]: void;
+	[EventsMap.WINDOW_CLOSE]: void;
 };
 
 export type EventsReturnValues = {
-	[EventsMap.OPEN_APP]: void;
-	[EventsMap.TEST]: string[];
+	[EventsMap.WINDOW_GET_FULLSCREEN_STATE]: boolean;
+	[EventsMap.WINDOW_FULLSCREEN_TOGGLE]: void;
+	[EventsMap.WINDOW_MINIMIZE]: void;
+	[EventsMap.WINDOW_CLOSE]: void;
 };

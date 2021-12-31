@@ -4,21 +4,68 @@
 	align-items: center;
 	font-size: 0.9em;
 	margin: 0;
+	padding: 0;
+	width: 100%;
 	font-weight: 500;
-	padding: 5px 0;
+	height: var(--toolbar-height);
 	background-color: var(--toolbar-background);
 	color: var(--toolbar-text-color);
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 .toolBar > li {
 	margin: 0 var(--edge-padding);
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.toolBar > li.without-margin {
+	margin: 0;
 }
 
 .toolBar a {
+	-webkit-user-select: none;
+	user-select: none;
 	display: flex;
 	align-items: center;
 	color: var(--toolbar-text-color);
+	transition: 0.3s;
 }
+
+.toolBar a:hover {
+	color: var(--accent-color);
+}
+
 .toolBar a > svg {
 	padding-right: 3px;
+}
+
+.toolbar-free-space {
+	flex: 1 1 0;
+	height: 100%;
+	-webkit-app-region: drag;
+}
+
+.toolbar-button {
+	font-size: 1.1em;
+	width: 45px;
+	margin: 0;
+	padding: 0;
+	transition: 0.3s;
+	background-color: transparent;
+	color: var(--toolbar-text-color);
+	cursor: pointer;
+	border: none;
+	height: 100%;
+}
+
+.toolbar-button:hover {
+	color: var(--toolbar-text-color-light);
+}
+
+.toolbar-button-close:hover {
+	background-color: red;
+	color: #fff;
 }

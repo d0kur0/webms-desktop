@@ -19,6 +19,7 @@ let mainWindow: BrowserWindow = null;
 
 const createWindow = (): void => {
 	mainWindow = new BrowserWindow({
+		frame: false,
 		height: WINDOW_HEIGHT,
 		width: isDevelopment ? WINDOW_WIDTH + DEVTOOLS_WIDTH : WINDOW_WIDTH,
 		webPreferences: {

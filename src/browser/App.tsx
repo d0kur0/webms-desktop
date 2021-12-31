@@ -1,19 +1,24 @@
 import "./App.css";
-import { useStore } from "@nanostores/react";
 import ToolBar from "components/ToolBar";
+import Preferences from "pages/Preferences";
+import RandomView from "pages/RandomView";
+import SavedFiles from "pages/SavedFiles";
+import SortedView from "pages/SortedView";
 import * as React from "react";
 import ReactDOM from "react-dom";
-import { addFile, files } from "stores/files";
+import { HashRouter as BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-	const list = useStore(files);
-
 	return (
-		<>
+		<BrowserRouter>
 			<ToolBar />
-
-			{list.map(file => file.name)}
-		</>
+			<Routes>
+				<Route path="/" element={<RandomView />} />
+				<Route path="/sortedView" element={<SortedView />} />
+				<Route path="/savedFiles" element={<SavedFiles />} />
+				<Route path="/preferences" element={<Preferences />} />
+			</Routes>
+		</BrowserRouter>
 	);
 }
 
