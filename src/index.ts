@@ -28,6 +28,15 @@ const createWindow = (): void => {
 		},
 	});
 
+	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+		callback({
+			responseHeaders: {
+				...details.responseHeaders,
+				"Content-Security-Policy": ["media-src: 'self"],
+			},
+		});
+	});
+
 	mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY).catch(console.error);
 	mainWindow.setMenu(null);
 

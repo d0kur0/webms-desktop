@@ -34,7 +34,11 @@
 	transition: 0.3s;
 }
 
-.toolBar a:hover {
+.toolBar a:hover,
+.toolBar a.active {
+	color: var(--accent-color);
+}
+ {
 	color: var(--accent-color);
 }
 

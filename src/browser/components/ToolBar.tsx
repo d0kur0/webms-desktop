@@ -1,4 +1,5 @@
 import "./ToolBar.css";
+import { ActiveLink } from "components/ActiveLink";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { FaSortNumericDown } from "react-icons/fa";
@@ -6,7 +7,6 @@ import { FiSettings } from "react-icons/fi";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { HiOutlineSaveAs } from "react-icons/hi";
 import { VscChromeClose, VscChromeMaximize, VscChromeMinimize, VscChromeRestore } from "react-icons/vsc";
-import { Link } from "react-router-dom";
 import { EventsMap } from "types/events";
 import { invokeEvent } from "utils/eventEmitter";
 
@@ -33,28 +33,28 @@ export default function ToolBar() {
 	return (
 		<ul className="toolBar">
 			<li>
-				<Link to="/">
+				<ActiveLink to="/">
 					<GiPerspectiveDiceSixFacesRandom />
 					Рандомные вебмы
-				</Link>
+				</ActiveLink>
 			</li>
 			<li>
-				<Link to="/sortedView">
+				<ActiveLink to="/sortedView">
 					<FaSortNumericDown />
 					Сортированный список
-				</Link>
+				</ActiveLink>
 			</li>
 			<li>
-				<Link to="/savedFiles">
+				<ActiveLink to="/savedFiles">
 					<HiOutlineSaveAs />
 					Сохраненное
-				</Link>
+				</ActiveLink>
 			</li>
 			<li>
-				<Link to="/preferences">
+				<ActiveLink to="/preferences">
 					<FiSettings />
 					Настройки
-				</Link>
+				</ActiveLink>
 			</li>
 			<li className="toolbar-free-space" />
 			<li className="without-margin">

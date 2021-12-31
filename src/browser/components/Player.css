@@ -1,0 +1,12 @@
+.player {
+	height: calc(100vh - var(--toolbar-height));
+	background-color: #000000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.player video {
+	height: 100%;
+	max-width: 100%;
+}
