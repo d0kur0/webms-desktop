@@ -8,26 +8,28 @@ import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { HiOutlineSaveAs } from "react-icons/hi";
 import { VscChromeClose, VscChromeMaximize, VscChromeMinimize, VscChromeRestore } from "react-icons/vsc";
 import { EventsMap } from "types/events";
-import { invokeEvent } from "utils/eventEmitter";
+import { invokeElectronEvent } from "utils/eventEmitter";
 
 export default function ToolBar() {
 	const [isFullScreen, setFullScreen] = useState(false);
 
 	useEffect(() => {
-		invokeEvent(EventsMap.WINDOW_GET_FULLSCREEN_STATE, void 1).then(isFullScreen => setFullScreen(isFullScreen));
+		invokeElectronEvent(EventsMap.WINDOW_GET_FULLSCREEN_STATE, void 1).then(isFullScreen =>
+			setFullScreen(isFullScreen)
+		);
 	}, []);
 
 	const onMinimize = () => {
-		invokeEvent(EventsMap.WINDOW_MINIMIZE, void 1).catch(console.error);
+		invokeElectronEvent(EventsMap.WINDOW_MINIMIZE, void 1).catch(console.error);
 	};
 
 	const onFullScreenToggle = () => {
-		invokeEvent(EventsMap.WINDOW_FULLSCREEN_TOGGLE, void 1).catch(console.error);
+		invokeElectronEvent(EventsMap.WINDOW_FULLSCREEN_TOGGLE, void 1).catch(console.error);
 		setFullScreen(!isFullScreen);
 	};
 
 	const onClose = () => {
-		invokeEvent(EventsMap.WINDOW_CLOSE, void 1).catch(console.error);
+		invokeElectronEvent(EventsMap.WINDOW_CLOSE, void 1).catch(console.error);
 	};
 
 	return (

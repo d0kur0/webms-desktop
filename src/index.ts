@@ -1,5 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import "electron/events";
+import { EventsMap } from "types/events";
+import { invokeBrowserEvent } from "utils/eventEmitter";
 
 if (require("electron-squirrel-startup")) {
 	// eslint-disable-line global-require
@@ -41,6 +43,10 @@ const createWindow = (): void => {
 	mainWindow.setMenu(null);
 
 	isDevelopment && mainWindow.webContents.openDevTools();
+
+	setInterval(() => {
+		invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, []);
+	}, 1000);
 };
 
 appLock || app.quit();
