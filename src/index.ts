@@ -1,14 +1,9 @@
 import { BrowserWindow, app } from "electron";
 
-import { EventsMap } from "types/events";
-
 import "electron/events";
 
-import { invokeBrowserEvent } from "utils/eventEmitter";
-import { mediaGetCache, mediaUpdate } from "utils/media";
-
+// eslint-disable-line global-require
 if (require("electron-squirrel-startup")) {
-	// eslint-disable-line global-require
 	app.quit();
 }
 
@@ -47,23 +42,12 @@ const createWindow = (): void => {
 	mainWindow.setMenu(null);
 
 	isDevelopment && mainWindow.webContents.openDevTools();
-
-	mainWindow.webContents.on("did-finish-load", function () {
-		mediaGetCache().then(mediaCache => invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, mediaCache.files));
-		mediaUpdate().then(files => invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files));
-
-		setInterval(() => {
-			mediaUpdate().then(files => invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files));
-		}, 1000 * 60 * 10);
-	});
 };
 
 appLock || app.quit();
 
 if (appLock) {
 	app.on("second-instance", (event, commandLine) => {
-		mainWindow.webContents.send("spotify-auth", commandLine);
-
 		if (mainWindow) {
 			if (mainWindow.isMinimized()) mainWindow.restore();
 			mainWindow.focus();

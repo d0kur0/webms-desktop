@@ -1,0 +1,19 @@
+.video-popup {
+	padding: 10px;
+	height: 250px;
+	background-image: var(--preview-image);
+	background-size: cover;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+.video-popup-title {
+	background-color: var(--background-color);
+	color: var(--text-color);
+	opacity: 0.8;
+	font-weight: bold;
+	font-size: 0.7em;
+	padding: 2px 4px;
+	border-radius: 4px;
+}

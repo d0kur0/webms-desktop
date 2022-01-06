@@ -19,6 +19,11 @@ a:hover {
 	color: var(--text-color-dark);
 }
 
+.app-body {
+	height: calc(100vh - var(--toolbar-height));
+	overflow-y: scroll;
+}
+
 :root {
 	--background-color: #ececec;
 	--text-color: #1e1e1e;

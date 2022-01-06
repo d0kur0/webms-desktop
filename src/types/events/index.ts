@@ -1,5 +1,6 @@
-import { MediaCache } from "types/media";
 import { Files } from "webm-finder";
+
+import { MediaCache } from "types/media";
 
 export enum EventsMap {
 	WINDOW_GET_FULLSCREEN_STATE = "windowGetFullScreenState",
@@ -9,6 +10,8 @@ export enum EventsMap {
 
 	MEDIA_SEND_UPDATED_FILES = "mediaSendUpdatedFiles",
 	MEDIA_SEND_STATE = "mediaSendState",
+
+	APP_READY = "appReady",
 }
 
 export type EventsProps = {
@@ -19,6 +22,8 @@ export type EventsProps = {
 
 	[EventsMap.MEDIA_SEND_UPDATED_FILES]: Files;
 	[EventsMap.MEDIA_SEND_STATE]: "startUpdate" | "endUpdate";
+
+	[EventsMap.APP_READY]: void;
 };
 
 export type EventsReturnValues = {
@@ -29,4 +34,6 @@ export type EventsReturnValues = {
 
 	[EventsMap.MEDIA_SEND_UPDATED_FILES]: Files;
 	[EventsMap.MEDIA_SEND_STATE]: void;
+
+	[EventsMap.APP_READY]: void;
 };

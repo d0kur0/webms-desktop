@@ -9,7 +9,7 @@ import { EventsMap } from "types/events";
 
 import { setFiles } from "stores/files";
 
-import { handleBrowserEvent } from "utils/eventEmitter";
+import { handleBrowserEvent, invokeElectronEvent } from "utils/eventEmitter";
 
 import Preferences from "pages/Preferences";
 import RandomView from "pages/RandomView";
@@ -21,6 +21,8 @@ import ToolBar from "components/ToolBar";
 
 function App() {
 	useEffect(() => {
+		invokeElectronEvent(EventsMap.APP_READY, void 1).then();
+
 		handleBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, (_, files) => {
 			setFiles([...files]);
 		});
@@ -30,12 +32,14 @@ function App() {
 		<BrowserRouter>
 			<MediaState />
 			<ToolBar />
-			<Routes>
-				<Route path="/" element={<RandomView />} />
-				<Route path="/sortedView" element={<SortedView />} />
-				<Route path="/savedFiles" element={<SavedFiles />} />
-				<Route path="/preferences" element={<Preferences />} />
-			</Routes>
+			<div className="app-body">
+				<Routes>
+					<Route path="/" element={<RandomView />} />
+					<Route path="/sortedView" element={<SortedView />} />
+					<Route path="/savedFiles" element={<SavedFiles />} />
+					<Route path="/preferences" element={<Preferences />} />
+				</Routes>
+			</div>
 		</BrowserRouter>
 	);
 }

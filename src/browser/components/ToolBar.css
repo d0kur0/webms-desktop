@@ -38,9 +38,6 @@
 .toolBar a.active {
 	color: var(--accent-color);
 }
- {
-	color: var(--accent-color);
-}
 
 .toolBar a > svg {
 	padding-right: 3px;
