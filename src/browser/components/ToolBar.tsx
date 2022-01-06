@@ -1,5 +1,5 @@
 import "./ToolBar.css";
-import { ActiveLink } from "components/ActiveLink";
+
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { FaSortNumericDown } from "react-icons/fa";
@@ -7,8 +7,12 @@ import { FiSettings } from "react-icons/fi";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { HiOutlineSaveAs } from "react-icons/hi";
 import { VscChromeClose, VscChromeMaximize, VscChromeMinimize, VscChromeRestore } from "react-icons/vsc";
+
 import { EventsMap } from "types/events";
+
 import { invokeElectronEvent } from "utils/eventEmitter";
+
+import { ActiveLink } from "components/ActiveLink";
 
 export default function ToolBar() {
 	const [isFullScreen, setFullScreen] = useState(false);

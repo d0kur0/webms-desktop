@@ -1,5 +1,7 @@
-import { ipcMain, ipcRenderer, IpcMainEvent, IpcRendererEvent } from "electron";
+import { IpcMainEvent, IpcRendererEvent, ipcMain, ipcRenderer } from "electron";
+
 import { EventsMap, EventsProps, EventsReturnValues } from "types/events";
+
 import { getMainWindow } from "utils/getMainWindow";
 
 export function handleElectronEvent<T extends EventsMap>(

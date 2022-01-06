@@ -2,10 +2,12 @@ import { app } from "electron";
 import { JSONFile, Low } from "lowdb";
 import path from "path";
 import "polyfills/fetch";
+import { Files, Threads, twoChannelFactory } from "webm-finder";
+
 import { EventsMap } from "types/events";
 import { AllowedFileExtensions, EnabledBoards, MediaCache } from "types/media";
+
 import { invokeBrowserEvent } from "utils/eventEmitter";
-import { Files, Threads, twoChannelFactory } from "webm-finder";
 
 const mediaCacheFilePath = path.join(app.getPath("home"), "/.webms-desktop/mediaCache.json");
 const twoChannel = twoChannelFactory({ requiredFileTypes: [...AllowedFileExtensions] });

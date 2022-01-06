@@ -1,6 +1,8 @@
 import "./RandomView.css";
-import Player from "components/Player";
+
 import React from "react";
+
+import Player from "components/Player";
 
 export default function RandomView(): JSX.Element {
 	return (

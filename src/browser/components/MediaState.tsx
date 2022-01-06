@@ -1,7 +1,10 @@
 import "./MediaState.css";
+
 import React from "react";
 import { useEffect, useState } from "react";
+
 import { EventsMap } from "types/events";
+
 import { handleBrowserEvent } from "utils/eventEmitter";
 
 export default function MediaState() {

@@ -1,4 +1,5 @@
 import { EventsMap } from "types/events";
+
 import { handleElectronEvent } from "utils/eventEmitter";
 import { getMainWindow } from "utils/getMainWindow";
 

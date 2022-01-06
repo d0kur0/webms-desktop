@@ -1,17 +1,23 @@
 import "./App.css";
-import MediaState from "components/MediaState";
-import ToolBar from "components/ToolBar";
-import Preferences from "pages/Preferences";
-import RandomView from "pages/RandomView";
-import SavedFiles from "pages/SavedFiles";
-import SortedView from "pages/SortedView";
+
 import * as React from "react";
 import { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter as BrowserRouter, Route, Routes } from "react-router-dom";
-import { setFiles } from "stores/files";
+
 import { EventsMap } from "types/events";
+
+import { setFiles } from "stores/files";
+
 import { handleBrowserEvent } from "utils/eventEmitter";
+
+import Preferences from "pages/Preferences";
+import RandomView from "pages/RandomView";
+import SavedFiles from "pages/SavedFiles";
+import SortedView from "pages/SortedView";
+
+import MediaState from "components/MediaState";
+import ToolBar from "components/ToolBar";
 
 function App() {
 	useEffect(() => {

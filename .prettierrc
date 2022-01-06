@@ -1,10 +1,24 @@
 {
-  "useTabs": true,
-  "printWidth": 120,
-  "tabWidth": 2,
-  "semi": true,
-  "singleQuote": false,
-  "bracketSpacing": true,
-  "jsxBracketSameLine": true,
-  "arrowParens": "avoid"
+	"useTabs": true,
+	"printWidth": 120,
+	"tabWidth": 2,
+	"semi": true,
+	"singleQuote": false,
+	"bracketSpacing": true,
+	"jsxBracketSameLine": true,
+	"arrowParens": "avoid",
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true,
+	"importOrder": [
+		"^(.*)\\.css$",
+		"^(react|react-dom)(.*)$",
+		"^types/(.*)$",
+		"^electron/(.*)$",
+		"^browser/(.*)$",
+		"^stores/(.*)$",
+		"^utils/(.*)$",
+		"^pages/(.*)$",
+		"^components/(.*)$",
+		"^[./]"
+	]
 }

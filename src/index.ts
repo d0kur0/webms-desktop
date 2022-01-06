@@ -1,6 +1,9 @@
-import { app, BrowserWindow } from "electron";
-import "electron/events";
+import { BrowserWindow, app } from "electron";
+
 import { EventsMap } from "types/events";
+
+import "electron/events";
+
 import { invokeBrowserEvent } from "utils/eventEmitter";
 import { mediaGetCache, mediaUpdate } from "utils/media";
 
