@@ -1,8 +1,8 @@
 import { atom } from "nanostores";
-import { File } from "types/media";
+import { Files } from "webm-finder";
 
-export const files = atom<File[]>([]);
+export const filesStore = atom<Files>([]);
 
-export function addFile(file: File) {
-	files.set([...files.get(), file]);
+export function setFiles(newFiles: Files) {
+	filesStore.set([...filesStore.get(), ...newFiles]);
 }

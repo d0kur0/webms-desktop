@@ -2,6 +2,7 @@ import { app, BrowserWindow } from "electron";
 import "electron/events";
 import { EventsMap } from "types/events";
 import { invokeBrowserEvent } from "utils/eventEmitter";
+import { mediaGetCache, mediaUpdate } from "utils/media";
 
 if (require("electron-squirrel-startup")) {
 	// eslint-disable-line global-require
@@ -44,9 +45,14 @@ const createWindow = (): void => {
 
 	isDevelopment && mainWindow.webContents.openDevTools();
 
-	setInterval(() => {
-		invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, []);
-	}, 1000);
+	mainWindow.webContents.on("did-finish-load", function () {
+		mediaGetCache().then(mediaCache => invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, mediaCache.files));
+		mediaUpdate().then(files => invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files));
+
+		setInterval(() => {
+			mediaUpdate().then(files => invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files));
+		}, 1000 * 60 * 10);
+	});
 };
 
 appLock || app.quit();
