@@ -22,6 +22,11 @@ a:hover {
 .app-body {
 	height: calc(100vh - var(--toolbar-height));
 	overflow-y: scroll;
+	position: relative;
+}
+
+.lock-body-scroll .app-body {
+	overflow: hidden;
 }
 
 :root {

@@ -3,27 +3,33 @@ import { Files } from "webm-finder";
 
 import "./SortedView.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { filesStore } from "stores/files";
 
-import VideoPopup from "components/VideoPopup";
+import { sortByBoardAndName } from "utils/file";
 
-const FILES_LIMIT = 30;
+import FilePopup from "components/FilePopup";
+
+const FILES_LIMIT = 40;
 
 export default function SortedView() {
 	const files = useStore(filesStore);
+	const sortedFile = useMemo(() => {
+		return sortByBoardAndName(files);
+	}, [files]);
+
 	const [offset, setOffset] = useState(0);
-	const [partialFiles, setPartialFiles] = useState<Files>(files.slice(0, FILES_LIMIT));
+	const [partialFiles, setPartialFiles] = useState<Files>(sortedFile.slice(0, FILES_LIMIT));
 
 	useEffect(() => {
-		setPartialFiles(files.slice(0, FILES_LIMIT));
-	}, [files]);
+		setPartialFiles(sortedFile.slice(0, FILES_LIMIT));
+	}, [sortedFile]);
 
 	return (
 		<div className="sorted-view">
-			{partialFiles.map(file => (
-				<VideoPopup file={file} />
+			{partialFiles.map((file, key) => (
+				<FilePopup key={key} file={file} />
 			))}
 		</div>
 	);

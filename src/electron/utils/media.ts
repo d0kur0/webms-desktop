@@ -17,7 +17,7 @@ export const mediaGetCache = async (): Promise<MediaCache> => {
 	const adapter = new JSONFile<MediaCache>(mediaCacheFilePath);
 	const db = new Low<MediaCache>(adapter);
 	await db.read();
-	return db.data;
+	return db.data || { files: [], revisionTime: 0 };
 };
 
 export const mediaSetCache = async (files: Files): Promise<void> => {
