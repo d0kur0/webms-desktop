@@ -62,19 +62,19 @@ export default function ToolBar() {
 					Настройки
 				</ActiveLink>
 			</li>
-			<li className="toolbar-free-space" />
+			<li className="toolbar__free-space" />
 			<li className="without-margin">
-				<button className="toolbar-button" onClick={onMinimize}>
+				<button className="toolbar__button" onClick={onMinimize}>
 					<VscChromeMinimize />
 				</button>
 			</li>
 			<li className="without-margin">
-				<button onClick={onFullScreenToggle} className="toolbar-button">
+				<button onClick={onFullScreenToggle} className="toolbar__button">
 					{isFullScreen ? <VscChromeRestore /> : <VscChromeMaximize />}
 				</button>
 			</li>
 			<li className="without-margin">
-				<button onClick={onClose} className="toolbar-button toolbar-button-close">
+				<button onClick={onClose} className="toolbar__button toolbar__button--close">
 					<VscChromeClose />
 				</button>
 			</li>

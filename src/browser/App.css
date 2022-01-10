@@ -22,6 +22,9 @@ a:hover {
 .app-body {
 	height: calc(100vh - var(--toolbar-height));
 	overflow-y: scroll;
+}
+
+.app-root {
 	position: relative;
 }
 
@@ -34,6 +37,7 @@ a:hover {
 	--text-color: #1e1e1e;
 	--text-color-dark: #000000;
 	--accent-color: #4064ab;
+	--accent-revert-color: #fff;
 
 	--toolbar-background: #cae9ff;
 	--toolbar-text-color: #3a1707;
@@ -41,4 +45,11 @@ a:hover {
 	--toolbar-height: 30px;
 
 	--edge-padding: 10px;
+
+	--image-backdrop-background: #ececec;
+
+	--badge-image-bg-color: #ff00cd;
+	--badge-image-color: #000;
+	--badge-video-bg-color: #1ec9c5;
+	--badge-video-color: #011818;
 }

@@ -13,3 +13,7 @@ export const sortByBoardAndName = (files: Files) => {
 			return a.name.localeCompare(b.name);
 		});
 };
+
+export const getFileType = (fileUrl: string) => {
+	return fileUrl.split(".").pop() || "unknown";
+};

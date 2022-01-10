@@ -1,0 +1,12 @@
+.image-viewer {
+	height: 100%;
+}
+
+.image-viewer__container {
+	height: 100%;
+	background-image: var(--image);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: var(--image-backdrop-background);
+}

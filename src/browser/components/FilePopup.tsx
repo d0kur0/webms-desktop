@@ -5,7 +5,9 @@ import "./FilePopup.css";
 import React, { useEffect, useState } from "react";
 import { GrClose } from "react-icons/gr";
 
-import { isImage } from "utils/file";
+import { getFileType, isImage } from "utils/file";
+
+import ImageView from "components/ImageView";
 
 type FilePopupProps = { file: File };
 type OverlayProps = { onClose: () => void; file: File };
@@ -21,13 +23,15 @@ function Overlay({ onClose, file }: OverlayProps) {
 	};
 
 	return (
-		<div className="video-popup-overlay">
-			<div className="video-popup-header">
-				<div className="video-popup-header__name">{file.name || "name is empty"}</div>
-				<button onClick={handleClose} className="video-popup-header__close">
+		<div className="file-popup__overlay">
+			<div className="file-popup__header">
+				<div className="file-popup__header-name">{file.name || "name is empty"}</div>
+				<button onClick={handleClose} className="file-popup__header-close">
 					<GrClose />
 				</button>
 			</div>
+
+			<div className="file-popup__body">{isImage(file.url) ? <ImageView file={file} /> : ""}</div>
 		</div>
 	);
 }
@@ -35,6 +39,7 @@ function Overlay({ onClose, file }: OverlayProps) {
 export default function FilePopup({ file }: FilePopupProps) {
 	const isFileImage = isImage(file.url);
 	const [isOpen, setIsOpen] = useState(false);
+	const fileType = getFileType(file.url);
 
 	const handleOverlayOpen = () => {
 		setIsOpen(true);
@@ -46,11 +51,12 @@ export default function FilePopup({ file }: FilePopupProps) {
 
 			<div
 				onClick={handleOverlayOpen}
-				className="video-popup"
+				className="file-popup"
 				style={{ "--preview-image": `url(${isFileImage ? file.url : file.previewUrl})` } as React.CSSProperties}>
-				<span className="video-popup-title">
+				<span className="file-popup__title">
 					{file.name} ({file.rootThread.board})
 				</span>
+				<span className={`file-popup__type file-popup__type--${isFileImage ? "image" : "video"}`}>{fileType}</span>
 			</div>
 		</>
 	);

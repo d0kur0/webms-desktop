@@ -43,13 +43,13 @@
 	padding-right: 3px;
 }
 
-.toolbar-free-space {
+.toolbar__free-space {
 	flex: 1 1 0;
 	height: 100%;
 	-webkit-app-region: drag;
 }
 
-.toolbar-button {
+.toolbar__button {
 	font-size: 1.1em;
 	width: 45px;
 	margin: 0;
@@ -62,11 +62,11 @@
 	height: 100%;
 }
 
-.toolbar-button:hover {
+.toolbar__button:hover {
 	color: var(--toolbar-text-color-light);
 }
 
-.toolbar-button-close:hover {
+.toolbar__button--close:hover {
 	background-color: red;
 	color: #fff;
 }

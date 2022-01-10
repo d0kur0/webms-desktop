@@ -32,13 +32,15 @@ function App() {
 		<BrowserRouter>
 			<MediaState />
 			<ToolBar />
-			<div className="app-body">
-				<Routes>
-					<Route path="/" element={<RandomView />} />
-					<Route path="/sortedView" element={<SortedView />} />
-					<Route path="/savedFiles" element={<SavedFiles />} />
-					<Route path="/preferences" element={<Preferences />} />
-				</Routes>
+			<div className="app-root">
+				<div className="app-body">
+					<Routes>
+						<Route path="/" element={<RandomView />} />
+						<Route path="/sortedView" element={<SortedView />} />
+						<Route path="/savedFiles" element={<SavedFiles />} />
+						<Route path="/preferences" element={<Preferences />} />
+					</Routes>
+				</div>
 			</div>
 		</BrowserRouter>
 	);
