@@ -1,20 +1,19 @@
 import { EventsMap } from "types/events";
 
-import { handleElectronEvent, invokeBrowserEvent } from "utils/eventEmitter";
+import { handleAsyncElectronEvent, invokeBrowserEvent } from "utils/eventEmitter";
 import { mediaGetCache, mediaUpdate } from "utils/media";
 
-handleElectronEvent(EventsMap.APP_READY, () => {
-	mediaGetCache().then(mediaCache => {
-		invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, mediaCache.files);
-		console.log("from cache", mediaCache.files.length);
-	});
+// 10m
+const MEDIA_UPDATE_INTERVAL = 1000 * 60 * 10;
 
-	mediaUpdate().then(files => {
-		invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files);
-		console.log("updated", files.length);
-	});
+handleAsyncElectronEvent(EventsMap.APP_READY, async () => {
+	const mediaCache = await mediaGetCache();
+	invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, []);
+
+	const files = await mediaUpdate();
+	invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files);
 
 	setInterval(() => {
 		mediaUpdate().then(files => invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files));
-	}, 1000 * 60 * 10);
+	}, MEDIA_UPDATE_INTERVAL);
 });

@@ -6,6 +6,7 @@
 	"main": ".webpack/main",
 	"scripts": {
 		"start": "electron-forge start",
+		"start-debug": "electron-forge start --inspect-electron",
 		"package": "electron-forge package",
 		"make": "NODE_ENV=production electron-forge make",
 		"lint": "eslint --ext .ts,.tsx ."
@@ -104,6 +105,6 @@
 		"react-dom": "^17.0.2",
 		"react-icons": "^4.3.1",
 		"react-router-dom": "^6.2.1",
-		"webm-finder": "^1.1.6"
+		"webm-finder": "^1.1.10"
 	}
 }
