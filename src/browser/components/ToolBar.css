@@ -36,7 +36,7 @@
 
 .toolBar a:hover,
 .toolBar a.active {
-	color: var(--accent-color);
+	color: var(--toolbar-accent-color);
 }
 
 .toolBar a > svg {

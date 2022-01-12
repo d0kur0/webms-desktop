@@ -3,10 +3,60 @@
 }
 
 .image-viewer__container {
-	height: 100%;
+	height: calc(100% - var(--controls-height));
 	background-image: var(--image);
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: var(--image-backdrop-background);
+}
+
+.controls {
+	background-color: var(--controls-background);
+	color: var(--controls-text-color);
+	height: var(--controls-height);
+	padding: 0 var(--edge-padding);
+}
+
+.controls__first-row {
+	padding: 10px 0 3px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.controls__second-row {
+}
+
+.controls__name {
+	font-size: 0.8em;
+}
+
+.controls__button {
+	background-color: var(--controls-button-bg);
+	color: var(--controls-button-color);
+	border-radius: 4px;
+	height: 25px;
+	padding: 0 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	cursor: pointer;
+	transition: 0.4s;
+	font-size: 0.8em;
+}
+
+.controls__button:hover {
+	opacity: 0.9;
+}
+
+.controls__button svg {
+	margin-right: 5px;
+	width: 15px;
+	height: auto;
+}
+
+.controls__buttons-group {
+	display: flex;
+	gap: 10px;
 }

@@ -36,20 +36,28 @@ a:hover {
 	--background-color: #ececec;
 	--text-color: #1e1e1e;
 	--text-color-dark: #000000;
-	--accent-color: #4064ab;
+	--accent-color: #de800f;
 	--accent-revert-color: #fff;
 
-	--toolbar-background: #cae9ff;
+	--toolbar-background: #ff8d00;
 	--toolbar-text-color: #3a1707;
+	--toolbar-accent-color: #ffe7c9;
 	--toolbar-text-color-light: #363636;
-	--toolbar-height: 30px;
+	--toolbar-height: 26px;
 
 	--edge-padding: 10px;
 
-	--image-backdrop-background: #ececec;
+	--image-backdrop-background: #131313;
 
 	--badge-image-bg-color: #ff00cd;
 	--badge-image-color: #000;
 	--badge-video-bg-color: #1ec9c5;
 	--badge-video-color: #011818;
+
+	--controls-background: #000;
+	--controls-text-color: #fff;
+	--controls-height: 80px;
+
+	--controls-button-bg: #1c1c1c;
+	--controls-button-color: #fff;
 }

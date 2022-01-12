@@ -3,7 +3,6 @@ import { File } from "webm-finder";
 import "./FilePopup.css";
 
 import React, { useEffect, useState } from "react";
-import { GrClose } from "react-icons/gr";
 
 import { getFileType, isImage } from "utils/file";
 
@@ -25,9 +24,8 @@ function Overlay({ onClose, file }: OverlayProps) {
 	return (
 		<div className="file-popup__overlay">
 			<div className="file-popup__header">
-				<div className="file-popup__header-name">{file.name || "name is empty"}</div>
 				<button onClick={handleClose} className="file-popup__header-close">
-					<GrClose />
+					Закрыть
 				</button>
 			</div>
 
