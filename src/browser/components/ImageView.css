@@ -15,11 +15,11 @@
 	background-color: var(--controls-background);
 	color: var(--controls-text-color);
 	height: var(--controls-height);
-	padding: 0 var(--edge-padding);
+	padding: 0 20px;
 }
 
 .controls__first-row {
-	padding: 10px 0 3px;
+	padding: 20px 0 3px;
 	display: flex;
 	justify-content: space-between;
 }
@@ -54,6 +54,11 @@
 	margin-right: 5px;
 	width: 15px;
 	height: auto;
+}
+
+.controls__button--only-icon svg {
+	margin: 0 5px;
+	width: 19px;
 }
 
 .controls__buttons-group {

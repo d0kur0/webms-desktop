@@ -1,4 +1,9 @@
+import { shell } from "electron";
+
 import { EventsMap } from "types/events";
 
-import { handleAsyncElectronEvent } from "utils/eventEmitter";
-import { mediaGetCache } from "utils/media";
+import { handleElectronEvent } from "utils/eventEmitter";
+
+handleElectronEvent(EventsMap.OPEN_SOURCE_THREAD, (_, url) => {
+	shell.openExternal(url).catch(console.error);
+});

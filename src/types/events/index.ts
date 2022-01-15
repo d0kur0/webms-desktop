@@ -12,6 +12,8 @@ export enum EventsMap {
 	MEDIA_SEND_STATE = "mediaSendState",
 
 	APP_READY = "appReady",
+
+	OPEN_SOURCE_THREAD = "openSourceThread",
 }
 
 export type EventsProps = {
@@ -24,6 +26,8 @@ export type EventsProps = {
 	[EventsMap.MEDIA_SEND_STATE]: "startUpdate" | "endUpdate";
 
 	[EventsMap.APP_READY]: void;
+
+	[EventsMap.OPEN_SOURCE_THREAD]: string;
 };
 
 export type EventsReturnValues = {
@@ -36,4 +40,6 @@ export type EventsReturnValues = {
 	[EventsMap.MEDIA_SEND_STATE]: void;
 
 	[EventsMap.APP_READY]: void;
+
+	[EventsMap.OPEN_SOURCE_THREAD]: void;
 };

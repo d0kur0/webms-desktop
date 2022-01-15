@@ -8,10 +8,19 @@ import { getFileType, isImage } from "utils/file";
 
 import ImageView from "components/ImageView";
 
-type FilePopupProps = { file: File };
-type OverlayProps = { onClose: () => void; file: File };
+type FilePopupProps = {
+	file: File;
+	onOpen: () => void;
+};
 
-function Overlay({ onClose, file }: OverlayProps) {
+type FileOverlayProps = {
+	onClose: () => void;
+	onNextFile: () => void;
+	onPreviousFile: () => void;
+	file: File;
+};
+
+export function FileOverlay({ onClose, onNextFile, onPreviousFile, file }: FileOverlayProps) {
 	useEffect(() => {
 		document.body.classList.add("lock-body-scroll");
 	}, []);
@@ -29,33 +38,26 @@ function Overlay({ onClose, file }: OverlayProps) {
 				</button>
 			</div>
 
-			<div className="file-popup__body">{isImage(file.url) ? <ImageView file={file} /> : ""}</div>
+			<div className="file-popup__body">
+				{isImage(file.url) ? <ImageView onNextFile={onNextFile} onPreviousFile={onPreviousFile} file={file} /> : ""}
+			</div>
 		</div>
 	);
 }
 
-export default function FilePopup({ file }: FilePopupProps) {
+export default function FilePopup({ file, onOpen }: FilePopupProps) {
 	const isFileImage = isImage(file.url);
-	const [isOpen, setIsOpen] = useState(false);
 	const fileType = getFileType(file.url);
 
-	const handleOverlayOpen = () => {
-		setIsOpen(true);
-	};
-
 	return (
-		<>
-			{isOpen ? <Overlay file={file} onClose={() => setIsOpen(false)} /> : ""}
-
-			<div
-				onClick={handleOverlayOpen}
-				className="file-popup"
-				style={{ "--preview-image": `url(${isFileImage ? file.url : file.previewUrl})` } as React.CSSProperties}>
-				<span className="file-popup__title">
-					{file.name} ({file.rootThread.board})
-				</span>
-				<span className={`file-popup__type file-popup__type--${isFileImage ? "image" : "video"}`}>{fileType}</span>
-			</div>
-		</>
+		<div
+			onClick={onOpen}
+			className="file-popup"
+			style={{ "--preview-image": `url(${isFileImage ? file.url : file.previewUrl})` } as React.CSSProperties}>
+			<span className="file-popup__title">
+				{file.name} ({file.rootThread.board})
+			</span>
+			<span className={`file-popup__type file-popup__type--${isFileImage ? "image" : "video"}`}>{fileType}</span>
+		</div>
 	);
 }
