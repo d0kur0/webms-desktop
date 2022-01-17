@@ -15,24 +15,19 @@ const FILES_LIMIT = 40;
 
 export default function SortedView() {
 	const files = useStore(filesStore);
-	const sortedFile = useMemo(() => {
-		return sortFilesByDate(files);
-	}, [files]);
+	const sortedFile = useMemo(() => sortFilesByDate(files), [files]);
 
 	const [offset, setOffset] = useState(0);
 	const [partialFiles, setPartialFiles] = useState<Files>(sortedFile.slice(0, FILES_LIMIT));
 
 	useEffect(() => {
-		setPartialFiles(sortedFile.slice(0, FILES_LIMIT));
-	}, [sortedFile]);
+		setPartialFiles(sortedFile.slice(offset, FILES_LIMIT));
+	}, [sortedFile, offset]);
 
 	const [openedFileIndex, setOpenedFileIndex] = useState<number | null>(null);
 
-	const onOpen = (key: number) => {
-		if (partialFiles[key]) {
-			setPartialFiles([...partialFiles, ...sortedFile.splice(offset + FILES_LIMIT, FILES_LIMIT)]);
-		}
-
+	const onOpenOverlay = (key: number) => {
+		partialFiles[key] || setOffset(offset + FILES_LIMIT);
 		setOpenedFileIndex(key);
 	};
 
@@ -47,8 +42,8 @@ export default function SortedView() {
 					<FileOverlay
 						onPreviousFile={onPreviousFile}
 						onNextFile={onNextFile}
-						file={partialFiles[openedFileIndex]}
 						onClose={onClose}
+						file={partialFiles[openedFileIndex]}
 					/>
 				) : (
 					<React.Fragment />
@@ -62,7 +57,7 @@ export default function SortedView() {
 			<Overlay />
 
 			{partialFiles.map((file, key) => (
-				<FilePopup onOpen={() => onOpen(key)} key={key} file={file} />
+				<FilePopup onOpen={() => onOpenOverlay(key)} key={key} file={file} />
 			))}
 		</div>
 	);
