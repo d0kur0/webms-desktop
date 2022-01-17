@@ -8,7 +8,7 @@ const MEDIA_UPDATE_INTERVAL = 1000 * 60 * 10;
 
 handleAsyncElectronEvent(EventsMap.APP_READY, async () => {
 	const mediaCache = await mediaGetCache();
-	invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, []);
+	invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, mediaCache.files);
 
 	const files = await mediaUpdate();
 	invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files);
