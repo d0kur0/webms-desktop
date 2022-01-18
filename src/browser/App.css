@@ -21,7 +21,7 @@ a:hover {
 
 .app-body {
 	height: calc(100vh - var(--toolbar-height));
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .app-root {
@@ -47,7 +47,7 @@ a:hover {
 
 	--edge-padding: 10px;
 
-	--image-backdrop-background: #131313;
+	--backdrop-background: #000000;
 
 	--badge-image-bg-color: #ff00cd;
 	--badge-image-color: #000;

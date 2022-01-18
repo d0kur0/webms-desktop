@@ -1,15 +1,22 @@
 .file-popup {
-	padding: 10px;
-	height: 250px;
-	background-image: var(--preview-image);
-	background-size: cover;
-	background-repeat: no-repeat;
+	height: 200px;
 	cursor: pointer;
 	border-radius: 5px;
 	position: relative;
+	overflow: hidden;
+}
+
+.file-popup__image {
+	border-radius: 5px;
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
 }
 
 .file-popup__title {
+	position: absolute;
+	top: 10px;
+	left: 10px;
 	background-color: var(--background-color);
 	color: var(--text-color);
 	opacity: 0.8;
@@ -19,7 +26,8 @@
 	border-radius: 4px;
 }
 
-.file-popup__type {
+.file-popup__type,
+.file-popup__board {
 	opacity: 0.9;
 	position: absolute;
 	background-color: var(--accent-color);
@@ -31,6 +39,11 @@
 	font-size: 0.7em;
 	bottom: 10px;
 	right: 10px;
+}
+
+.file-popup__board {
+	right: unset;
+	left: 10px;
 }
 
 .file-popup__type--image {

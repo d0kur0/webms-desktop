@@ -25,6 +25,7 @@ function App() {
 
 		handleBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, (_, files) => {
 			setFiles([...files]);
+			console.log("Хуетьа");
 		});
 	}, []);
 

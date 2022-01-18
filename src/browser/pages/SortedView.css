@@ -1,6 +1,11 @@
 .sorted-view {
 	padding: 15px;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	display: flex;
+	flex-wrap: wrap;
 	gap: 15px;
+	justify-content: center;
+}
+
+.sorted-view > * {
+	width: 24%;
 }

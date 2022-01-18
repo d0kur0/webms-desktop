@@ -2,11 +2,11 @@ import { File } from "webm-finder";
 
 import "./FilePopup.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { getFileType, isImage } from "utils/file";
 
-import ImageView from "components/ImageView";
+import FileView from "components/FileView";
 
 type FilePopupProps = {
 	file: File;
@@ -39,7 +39,7 @@ export function FileOverlay({ onClose, onNextFile, onPreviousFile, file }: FileO
 			</div>
 
 			<div className="file-popup__body">
-				{isImage(file.url) ? <ImageView onNextFile={onNextFile} onPreviousFile={onPreviousFile} file={file} /> : ""}
+				<FileView onNextFile={onNextFile} onPreviousFile={onPreviousFile} file={file} />
 			</div>
 		</div>
 	);
@@ -50,13 +50,10 @@ export default function FilePopup({ file, onOpen }: FilePopupProps) {
 	const fileType = getFileType(file.url);
 
 	return (
-		<div
-			onClick={onOpen}
-			className="file-popup"
-			style={{ "--preview-image": `url(${isFileImage ? file.url : file.previewUrl})` } as React.CSSProperties}>
-			<span className="file-popup__title">
-				{file.name} ({file.rootThread.board})
-			</span>
+		<div onClick={onOpen} className="file-popup">
+			<img alt={file.name} className="file-popup__image" src={file.previewUrl} />
+			<span className="file-popup__title">{file.name}</span>
+			<span className="file-popup__board">{file.rootThread.board}</span>
 			<span className={`file-popup__type file-popup__type--${isFileImage ? "image" : "video"}`}>{fileType}</span>
 		</div>
 	);

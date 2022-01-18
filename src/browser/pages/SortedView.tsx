@@ -26,35 +26,27 @@ export default function SortedView() {
 
 	const [openedFileIndex, setOpenedFileIndex] = useState<number | null>(null);
 
-	const onOpenOverlay = (key: number) => {
-		partialFiles[key] || setOffset(offset + FILES_LIMIT);
-		setOpenedFileIndex(key);
-	};
-
-	const Overlay = () => {
-		const onClose = () => setOpenedFileIndex(null);
-		const onNextFile = () => setOpenedFileIndex(openedFileIndex + 1);
-		const onPreviousFile = () => setOpenedFileIndex(openedFileIndex - 1);
-
-		return (
-			<React.Fragment>
-				{partialFiles[openedFileIndex] ? (
-					<FileOverlay
-						onPreviousFile={onPreviousFile}
-						onNextFile={onNextFile}
-						onClose={onClose}
-						file={partialFiles[openedFileIndex]}
-					/>
-				) : (
-					<React.Fragment />
-				)}
-			</React.Fragment>
-		);
+	const onClose = () => setOpenedFileIndex(null);
+	const onOpenOverlay = (key: number) => setOpenedFileIndex(key);
+	const onPreviousFile = () => setOpenedFileIndex(openedFileIndex - 1);
+	const onNextFile = () => {
+		const nextIndex = openedFileIndex + 1;
+		partialFiles[nextIndex] || setOffset(offset + FILES_LIMIT);
+		setOpenedFileIndex(nextIndex);
 	};
 
 	return (
 		<div className="sorted-view">
-			<Overlay />
+			{partialFiles[openedFileIndex] ? (
+				<FileOverlay
+					onPreviousFile={onPreviousFile}
+					onNextFile={onNextFile}
+					onClose={onClose}
+					file={partialFiles[openedFileIndex]}
+				/>
+			) : (
+				<React.Fragment />
+			)}
 
 			{partialFiles.map((file, key) => (
 				<FilePopup onOpen={() => onOpenOverlay(key)} key={key} file={file} />

@@ -14,6 +14,9 @@ handleAsyncElectronEvent(EventsMap.APP_READY, async () => {
 	invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files);
 
 	setInterval(() => {
-		mediaUpdate().then(files => invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files));
+		mediaUpdate().then(files => {
+			invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files);
+			console.log("setInterval", MEDIA_UPDATE_INTERVAL);
+		});
 	}, MEDIA_UPDATE_INTERVAL);
 });
