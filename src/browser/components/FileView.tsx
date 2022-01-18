@@ -21,7 +21,7 @@ export default function FileView({ file, onNextFile, onPreviousFile }: FileViewP
 	const isFileImage = isImage(file.url);
 	const videoRef = useRef<HTMLVideoElement>(null);
 
-	const [paused, setPaused] = useState(true);
+	const [paused, setPaused] = useState(false);
 	const [volume, setVolume] = useState(+localStorage.volume || 0.1);
 	const [duration, setDuration] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
@@ -30,32 +30,21 @@ export default function FileView({ file, onNextFile, onPreviousFile }: FileViewP
 		if (!videoRef.current) return;
 		videoRef.current.volume = volume;
 		setDuration(videoRef.current.duration);
+		setPaused(videoRef.current.paused);
 
 		videoRef.current.addEventListener("timeupdate", () => {
 			setCurrentTime(videoRef.current?.currentTime || 0);
 		});
 
-		videoRef.current.addEventListener("pause", () => {
-			setPaused(true);
-		});
-
-		videoRef.current.addEventListener("play", () => {
-			setPaused(false);
-		});
-
-		videoRef.current.addEventListener("ended", () => {
-			setPaused(true);
-		});
-	}, [videoRef]);
-
-	useEffect(() => {
-		if (!videoRef.current) return;
-		paused && videoRef.current.pause();
-		paused || videoRef.current.play();
-	}, [paused]);
+		videoRef.current.addEventListener("pause", () => setPaused(true));
+		videoRef.current.addEventListener("play", () => setPaused(false));
+		videoRef.current.addEventListener("ended", () => setPaused(false));
+	}, [videoRef, file]);
 
 	const onPlayPause: MouseEventHandler<HTMLButtonElement> = event => {
 		setPaused(!paused);
+		paused || videoRef.current.pause();
+		paused && videoRef.current.play();
 	};
 
 	return (
@@ -68,7 +57,7 @@ export default function FileView({ file, onNextFile, onPreviousFile }: FileViewP
 			) : (
 				<div className="file-viewer__container">
 					<div className="file-view__video">
-						<video ref={videoRef} src={file.url} />
+						<video autoPlay={true} ref={videoRef} src={file.url} />
 					</div>
 				</div>
 			)}
@@ -97,6 +86,10 @@ export default function FileView({ file, onNextFile, onPreviousFile }: FileViewP
 							<HiArrowNarrowLeft />
 						</button>
 
+						<button onClick={onNextFile} className="controls__button controls__button--only-icon">
+							<HiArrowNarrowRight />
+						</button>
+
 						{isFileImage ? (
 							<React.Fragment />
 						) : (
@@ -104,10 +97,6 @@ export default function FileView({ file, onNextFile, onPreviousFile }: FileViewP
 								{paused ? <BsPlayFill /> : <BsFillPauseFill />}
 							</button>
 						)}
-
-						<button onClick={onNextFile} className="controls__button controls__button--only-icon">
-							<HiArrowNarrowRight />
-						</button>
 					</div>
 				</div>
 			</div>

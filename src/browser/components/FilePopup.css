@@ -81,6 +81,7 @@
 }
 
 .file-popup__header-close {
+	z-index: 5;
 	background-color: var(--accent-color);
 	color: var(--accent-revert-color);
 	margin: 0;

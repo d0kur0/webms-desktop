@@ -1,9 +1,10 @@
 import { useStore } from "@nanostores/react";
+import { useOnScreen } from "hooks/useOnScreen";
 import { File, Files } from "webm-finder";
 
 import "./SortedView.css";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { filesStore } from "stores/files";
 
@@ -15,14 +16,14 @@ const FILES_LIMIT = 40;
 
 export default function SortedView() {
 	const files = useStore(filesStore);
-	const sortedFile = useMemo(() => sortFilesByDate(files), [files]);
+	const sortedFiles = useMemo(() => sortFilesByDate(files), [files]);
 
 	const [offset, setOffset] = useState(0);
-	const [partialFiles, setPartialFiles] = useState<Files>(sortedFile.slice(0, FILES_LIMIT));
+	const [partialFiles, setPartialFiles] = useState<Files>(sortedFiles.slice(0, FILES_LIMIT));
 
 	useEffect(() => {
-		setPartialFiles(sortedFile.slice(offset, FILES_LIMIT));
-	}, [sortedFile, offset]);
+		setPartialFiles(sortedFiles.slice(offset, FILES_LIMIT));
+	}, [sortedFiles]);
 
 	const [openedFileIndex, setOpenedFileIndex] = useState<number | null>(null);
 
@@ -35,22 +36,40 @@ export default function SortedView() {
 		setOpenedFileIndex(nextIndex);
 	};
 
-	return (
-		<div className="sorted-view">
-			{partialFiles[openedFileIndex] ? (
-				<FileOverlay
-					onPreviousFile={onPreviousFile}
-					onNextFile={onNextFile}
-					onClose={onClose}
-					file={partialFiles[openedFileIndex]}
-				/>
-			) : (
-				<React.Fragment />
-			)}
+	const loadingRef = useRef<HTMLDivElement>(null);
+	const onScreen = useOnScreen(loadingRef);
 
-			{partialFiles.map((file, key) => (
-				<FilePopup onOpen={() => onOpenOverlay(key)} key={key} file={file} />
-			))}
-		</div>
+	useEffect(() => {
+		onScreen && partialFiles.length && setOffset(offset + FILES_LIMIT);
+	}, [onScreen]);
+
+	useEffect(() => {
+		setPartialFiles([...partialFiles, ...sortedFiles.slice(offset, FILES_LIMIT)]);
+		console.log(offset, partialFiles, sortedFiles);
+	}, [offset]);
+
+	return (
+		<React.Fragment>
+			<div className="sorted-view">
+				{partialFiles[openedFileIndex] ? (
+					<FileOverlay
+						onPreviousFile={onPreviousFile}
+						onNextFile={onNextFile}
+						onClose={onClose}
+						file={partialFiles[openedFileIndex]}
+					/>
+				) : (
+					<React.Fragment />
+				)}
+
+				{partialFiles.map((file, key) => (
+					<FilePopup onOpen={() => onOpenOverlay(key)} key={key} file={file} />
+				))}
+
+				<div ref={loadingRef} className="sorted-view__loading">
+					Loading ...
+				</div>
+			</div>
+		</React.Fragment>
 	);
 }

@@ -16,7 +16,6 @@ import RandomView from "pages/RandomView";
 import SavedFiles from "pages/SavedFiles";
 import SortedView from "pages/SortedView";
 
-import MediaState from "components/MediaState";
 import ToolBar from "components/ToolBar";
 
 function App() {
@@ -31,7 +30,6 @@ function App() {
 
 	return (
 		<BrowserRouter>
-			<MediaState />
 			<ToolBar />
 			<div className="app-root">
 				<div className="app-body">

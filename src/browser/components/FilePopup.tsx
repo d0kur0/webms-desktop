@@ -23,6 +23,7 @@ type FileOverlayProps = {
 export function FileOverlay({ onClose, onNextFile, onPreviousFile, file }: FileOverlayProps) {
 	useEffect(() => {
 		document.body.classList.add("lock-body-scroll");
+		return () => document.body.classList.remove("lock-body-scroll");
 	}, []);
 
 	const handleClose = () => {

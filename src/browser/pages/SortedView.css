@@ -9,3 +9,7 @@
 .sorted-view > * {
 	width: 24%;
 }
+
+.sorted-view__loading {
+	width: 100%;
+}
