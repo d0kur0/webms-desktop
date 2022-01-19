@@ -2,7 +2,7 @@ import { File } from "webm-finder";
 
 import "./FileView.css";
 
-import React, { MouseEventHandler, useEffect, useRef, useState } from "react";
+import React, { MouseEventHandler, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { BsFillPauseFill, BsPlayFill } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
 import { HiArrowNarrowLeft, HiArrowNarrowRight, HiOutlineSaveAs } from "react-icons/hi";
@@ -11,13 +11,16 @@ import { ImEyeBlocked } from "react-icons/im";
 import { isImage } from "utils/file";
 import { openSourceThread } from "utils/openSourceThread";
 
+import CustomRange from "components/CustomRange";
+
 type FileViewProps = {
 	file: File;
 	onNextFile: () => void;
 	onPreviousFile: () => void;
+	buttonsRender?: JSX.Element;
 };
 
-export default function FileView({ file, onNextFile, onPreviousFile }: FileViewProps) {
+export default function FileView({ file, onNextFile, onPreviousFile, buttonsRender }: FileViewProps) {
 	const isFileImage = isImage(file.url);
 	const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -29,22 +32,26 @@ export default function FileView({ file, onNextFile, onPreviousFile }: FileViewP
 	useEffect(() => {
 		if (!videoRef.current) return;
 		videoRef.current.volume = volume;
-		setDuration(videoRef.current.duration);
 		setPaused(videoRef.current.paused);
-
-		videoRef.current.addEventListener("timeupdate", () => {
-			setCurrentTime(videoRef.current?.currentTime || 0);
-		});
-
-		videoRef.current.addEventListener("pause", () => setPaused(true));
-		videoRef.current.addEventListener("play", () => setPaused(false));
-		videoRef.current.addEventListener("ended", () => setPaused(false));
 	}, [videoRef, file]);
 
 	const onPlayPause: MouseEventHandler<HTMLButtonElement> = event => {
 		setPaused(!paused);
 		paused || videoRef.current.pause();
 		paused && videoRef.current.play();
+	};
+
+	const onPause = () => setPaused(true);
+	const onPlay = () => setPaused(false);
+	const onEnded = () => setPaused(true);
+
+	const onLoadedMetaData = ({ currentTarget }: SyntheticEvent<HTMLVideoElement>) => setDuration(currentTarget.duration);
+	const onTimeUpdate = ({ currentTarget }: SyntheticEvent<HTMLVideoElement>) =>
+		setCurrentTime(currentTarget.currentTime);
+
+	const onChangeCurrentTime = ([value]: number[]) => {
+		setCurrentTime(value);
+		videoRef.current.currentTime = value;
 	};
 
 	return (
@@ -57,30 +64,41 @@ export default function FileView({ file, onNextFile, onPreviousFile }: FileViewP
 			) : (
 				<div className="file-viewer__container">
 					<div className="file-view__video">
-						<video autoPlay={true} ref={videoRef} src={file.url} />
+						<video
+							onPlay={onPlay}
+							onPause={onPause}
+							onEnded={onEnded}
+							onTimeUpdate={onTimeUpdate}
+							onLoadedMetadata={onLoadedMetaData}
+							autoPlay={true}
+							ref={videoRef}
+							src={file.url}
+						/>
 					</div>
 				</div>
 			)}
 
-			<div className="controls">
-				<div className="controls__first-row">
-					<div className="controls__name">{file.name || "Empty name"}</div>
-					<div className="controls__buttons-group">
-						<button onClick={() => openSourceThread(file.rootThread.url)} className="controls__button">
-							<FiExternalLink /> {file.rootThread.subject}
-						</button>
+			<div className="file-viewer__info">
+				<div className="file-viewer__name">{file.name || "Empty name"}</div>
+				<div className="controls__buttons-group">
+					<button onClick={() => openSourceThread(file.rootThread.url)} className="controls__button">
+						<FiExternalLink /> {file.rootThread.subject || "Empty thread name"}
+					</button>
 
-						<button className="controls__button">
-							<ImEyeBlocked /> В фильтр
-						</button>
+					<button className="controls__button">
+						<ImEyeBlocked /> В фильтр
+					</button>
 
-						<button className="controls__button">
-							<HiOutlineSaveAs /> Сохранить
-						</button>
-					</div>
+					<button className="controls__button">
+						<HiOutlineSaveAs /> Сохранить
+					</button>
+
+					{buttonsRender}
 				</div>
+			</div>
 
-				<div className="controls__second-row">
+			<div className="controls">
+				<div className="controls__body">
 					<div className="controls__buttons-group">
 						<button onClick={onPreviousFile} className="controls__button controls__button--only-icon">
 							<HiArrowNarrowLeft />
@@ -98,6 +116,25 @@ export default function FileView({ file, onNextFile, onPreviousFile }: FileViewP
 							</button>
 						)}
 					</div>
+
+					{isFileImage ? (
+						<React.Fragment />
+					) : (
+						<React.Fragment>
+							<div className="controls__timeline">
+								<span className="controls__timeline-value">00:00</span>
+								<CustomRange
+									min={0}
+									max={duration || 1}
+									step={0.1}
+									values={[currentTime]}
+									onChange={onChangeCurrentTime}
+								/>
+								<span className="controls__timeline-value">00:00</span>
+							</div>
+							<div className="controls__volume">123</div>{" "}
+						</React.Fragment>
+					)}
 				</div>
 			</div>
 		</div>

@@ -44,8 +44,7 @@ export default function SortedView() {
 	}, [onScreen]);
 
 	useEffect(() => {
-		setPartialFiles([...partialFiles, ...sortedFiles.slice(offset, FILES_LIMIT)]);
-		console.log(offset, partialFiles, sortedFiles);
+		setPartialFiles([...partialFiles, ...sortedFiles.slice(offset, offset + FILES_LIMIT)]);
 	}, [offset]);
 
 	return (

@@ -6,6 +6,8 @@ import { mediaGetCache, mediaUpdate } from "utils/media";
 // 10m
 const MEDIA_UPDATE_INTERVAL = 1000 * 60 * 10;
 
+let INTERVAL: NodeJS.Timer;
+
 handleAsyncElectronEvent(EventsMap.APP_READY, async () => {
 	const mediaCache = await mediaGetCache();
 	invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, mediaCache.files);
@@ -13,7 +15,9 @@ handleAsyncElectronEvent(EventsMap.APP_READY, async () => {
 	const files = await mediaUpdate();
 	invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files);
 
-	setInterval(() => {
+	if (INTERVAL) return;
+
+	INTERVAL = setInterval(() => {
 		mediaUpdate().then(files => {
 			invokeBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, files);
 			console.log("setInterval", MEDIA_UPDATE_INTERVAL);

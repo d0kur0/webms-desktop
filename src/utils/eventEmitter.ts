@@ -15,7 +15,6 @@ export function handleBrowserEvent<T extends EventsMap>(
 	event: T,
 	callback: (event: IpcRendererEvent, props: EventsProps[T]) => void
 ): void {
-	console.log(event);
 	ipcRenderer.on(event, callback);
 }
 

@@ -56,8 +56,14 @@ a:hover {
 
 	--controls-background: #000;
 	--controls-text-color: #fff;
-	--controls-height: 90px;
+	--controls-height: 40px;
 
 	--controls-button-bg: #1c1c1c;
 	--controls-button-color: #fff;
+
+	--range-bg-color-before: #dddddd;
+	--range-bg-color-after: #383838;
+	--range-thumb-color: #ffffff;
+	--range-thumb-size: 14px;
+	--range-track-size: 8px;
 }

@@ -3,6 +3,7 @@ import { File } from "webm-finder";
 import "./FilePopup.css";
 
 import React, { useEffect } from "react";
+import { MdCloseFullscreen } from "react-icons/md";
 
 import { getFileType, isImage } from "utils/file";
 
@@ -33,14 +34,17 @@ export function FileOverlay({ onClose, onNextFile, onPreviousFile, file }: FileO
 
 	return (
 		<div className="file-popup__overlay">
-			<div className="file-popup__header">
-				<button onClick={handleClose} className="file-popup__header-close">
-					Закрыть
-				</button>
-			</div>
-
 			<div className="file-popup__body">
-				<FileView onNextFile={onNextFile} onPreviousFile={onPreviousFile} file={file} />
+				<FileView
+					buttonsRender={
+						<button onClick={handleClose} className="controls__button">
+							<MdCloseFullscreen /> Закрыть
+						</button>
+					}
+					onNextFile={onNextFile}
+					onPreviousFile={onPreviousFile}
+					file={file}
+				/>
 			</div>
 		</div>
 	);
