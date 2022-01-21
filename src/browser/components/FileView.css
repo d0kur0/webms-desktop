@@ -82,6 +82,26 @@
 	align-items: center;
 }
 
+.controls__volume {
+	width: 90px;
+	display: flex;
+	align-items: center;
+}
+
+.controls__volume-icon {
+	line-height: 0;
+	margin-right: 7px;
+	background-color: transparent;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+}
+
+.controls__volume-icon svg {
+	width: 20px;
+	height: 20px;
+}
+
 .controls__timeline-value {
 	padding: 0 15px;
 	font-size: 0.9em;

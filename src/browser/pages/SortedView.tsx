@@ -12,7 +12,7 @@ import { sortFilesByDate } from "utils/file";
 
 import FilePopup, { FileOverlay } from "components/FilePopup";
 
-const FILES_LIMIT = 40;
+const FILES_LIMIT = 70;
 
 export default function SortedView() {
 	const files = useStore(filesStore);

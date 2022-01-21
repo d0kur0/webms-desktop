@@ -7,6 +7,8 @@ import { BsFillPauseFill, BsPlayFill } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
 import { HiArrowNarrowLeft, HiArrowNarrowRight, HiOutlineSaveAs } from "react-icons/hi";
 import { ImEyeBlocked } from "react-icons/im";
+import { IoMdVolumeOff } from "react-icons/io";
+import { IoVolumeMedium } from "react-icons/io5";
 
 import { isImage } from "utils/file";
 import { openSourceThread } from "utils/openSourceThread";
@@ -25,7 +27,7 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 	const videoRef = useRef<HTMLVideoElement>(null);
 
 	const [paused, setPaused] = useState(false);
-	const [volume, setVolume] = useState(+localStorage.volume || 0.1);
+	const [volume, setVolume] = useState(localStorage.volumeDisabled ? 0 : +localStorage.volume || 0.1);
 	const [duration, setDuration] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
 
@@ -52,6 +54,25 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 	const onChangeCurrentTime = ([value]: number[]) => {
 		setCurrentTime(value);
 		videoRef.current.currentTime = value;
+	};
+
+	const onChangeVolume = ([value]: number[]) => {
+		setVolume(value);
+		videoRef.current.volume = value;
+		localStorage.volume = value;
+	};
+
+	const onDisableVolume = () => {
+		if (localStorage.volumeDisabled) {
+			const restoredValue = +localStorage.volume || 0.5;
+			setVolume(restoredValue);
+			videoRef.current.volume = restoredValue;
+			localStorage.removeItem("volumeDisabled");
+		} else {
+			setVolume(0);
+			videoRef.current.volume = 0;
+			localStorage.setItem("volumeDisabled", "1");
+		}
 	};
 
 	return (
@@ -132,7 +153,12 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 								/>
 								<span className="controls__timeline-value">00:00</span>
 							</div>
-							<div className="controls__volume">123</div>{" "}
+							<div className="controls__volume">
+								<button onClick={onDisableVolume} className="controls__volume-icon">
+									{volume ? <IoVolumeMedium /> : <IoMdVolumeOff />}
+								</button>
+								<CustomRange min={0} max={1} step={0.1} values={[volume]} onChange={onChangeVolume} />
+							</div>
 						</React.Fragment>
 					)}
 				</div>

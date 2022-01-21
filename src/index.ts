@@ -19,6 +19,8 @@ const DEVTOOLS_WIDTH = 500;
 let mainWindow: BrowserWindow = null;
 
 const createWindow = (): void => {
+	app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors");
+
 	mainWindow = new BrowserWindow({
 		frame: false,
 		height: WINDOW_HEIGHT,
@@ -26,6 +28,7 @@ const createWindow = (): void => {
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
+			webSecurity: false,
 		},
 	});
 
@@ -47,7 +50,7 @@ const createWindow = (): void => {
 appLock || app.quit();
 
 if (appLock) {
-	app.on("second-instance", (event, commandLine) => {
+	app.on("second-instance", () => {
 		if (mainWindow) {
 			if (mainWindow.isMinimized()) mainWindow.restore();
 			mainWindow.focus();

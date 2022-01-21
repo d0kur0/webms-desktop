@@ -66,4 +66,43 @@ a:hover {
 	--range-thumb-color: #ffffff;
 	--range-thumb-size: 14px;
 	--range-track-size: 8px;
+
+	--loader-background: #ffebd3;
+	--loader-color: #de800f;
+}
+
+@keyframes fadeout {
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+}
+
+@keyframes fadein {
+	0% {
+		opacity: 0;
+		transform: scale(1.1);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--toolbar-background);
+	-webkit-border-radius: 1ex;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
 }

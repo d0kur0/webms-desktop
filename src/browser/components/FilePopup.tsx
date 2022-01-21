@@ -2,12 +2,13 @@ import { File } from "webm-finder";
 
 import "./FilePopup.css";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MdCloseFullscreen } from "react-icons/md";
 
 import { getFileType, isImage } from "utils/file";
 
 import FileView from "components/FileView";
+import Loader from "components/Loader";
 
 type FilePopupProps = {
 	file: File;
@@ -53,11 +54,14 @@ export function FileOverlay({ onClose, onNextFile, onPreviousFile, file }: FileO
 export default function FilePopup({ file, onOpen }: FilePopupProps) {
 	const isFileImage = isImage(file.url);
 	const fileType = getFileType(file.url);
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	const onImageLoaded = () => setIsLoaded(true);
 
 	return (
-		<div onClick={onOpen} className="file-popup">
-			<img alt={file.name} className="file-popup__image" src={file.previewUrl} />
-			<span className="file-popup__title">{file.name}</span>
+		<div onClick={onOpen} className="file-popup" title={file.name}>
+			<img onLoad={onImageLoaded} alt={file.name} className="file-popup__image" src={file.previewUrl} />
+			{isLoaded ? "" : <Loader />}
 			<span className="file-popup__board">{file.rootThread.board}</span>
 			<span className={`file-popup__type file-popup__type--${isFileImage ? "image" : "video"}`}>{fileType}</span>
 		</div>
