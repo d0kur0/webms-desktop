@@ -1,3 +1,6 @@
+import { useStore } from "@nanostores/react";
+import { useOnAnyInteraction } from "hooks/useOnAnyInteraction";
+
 import "./App.css";
 
 import * as React from "react";
@@ -7,7 +10,8 @@ import { HashRouter as BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { EventsMap } from "types/events";
 
-import { setFiles } from "stores/files";
+import { filesStore, setFiles } from "stores/files";
+import { setIsInteracted, userStore } from "stores/user";
 
 import { handleBrowserEvent, invokeElectronEvent } from "utils/eventEmitter";
 
@@ -24,9 +28,14 @@ function App() {
 
 		handleBrowserEvent(EventsMap.MEDIA_SEND_UPDATED_FILES, (_, files) => {
 			setFiles([...files]);
-			console.log("Хуетьа");
 		});
 	}, []);
+
+	const isInteracted = useOnAnyInteraction();
+
+	useEffect(() => {
+		setIsInteracted(isInteracted);
+	}, [isInteracted]);
 
 	return (
 		<BrowserRouter>

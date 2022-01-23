@@ -76,6 +76,15 @@
 	align-items: center;
 }
 
+.controls__progress {
+	flex: 1 1 0;
+	padding: 0 15px;
+}
+
+.controls__progress progress {
+	width: 100%;
+}
+
 .controls__timeline {
 	flex: 1 1 0;
 	display: flex;

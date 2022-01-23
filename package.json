@@ -8,7 +8,7 @@
 		"start": "electron-forge start",
 		"start-debug": "electron-forge start --inspect-electron",
 		"package": "electron-forge package",
-		"make": "NODE_ENV=production electron-forge make",
+		"make": "electron-forge make",
 		"lint": "eslint --ext .ts,.tsx ."
 	},
 	"keywords": [
@@ -16,6 +16,11 @@
 		"2ch",
 		"4chan"
 	],
+	"author": {
+		"name": "d0kur0",
+		"email": "dev.dokuro@gmail.com",
+		"url": "https://github.com/d0kur0"
+	},
 	"contributors": [
 		{
 			"name": "d0kur0",
@@ -97,7 +102,9 @@
 	},
 	"dependencies": {
 		"@nanostores/react": "^0.1.5",
+		"@types/lodash": "^4.14.178",
 		"electron-squirrel-startup": "^1.0.0",
+		"lodash": "^4.17.21",
 		"lowdb": "^3.0.0",
 		"nanostores": "^0.5.8",
 		"node-fetch": "^3.1.0",

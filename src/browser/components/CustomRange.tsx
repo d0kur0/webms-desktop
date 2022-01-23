@@ -6,17 +6,19 @@ type CustomRangeProps = {
 	step: number;
 	min: number;
 	max: number;
-	onChange: (values: number[]) => void;
+	onChange?: (values: number[]) => void;
+	disabled?: boolean;
 };
 
-export default function CustomRange({ values, step, min, max, onChange }: CustomRangeProps) {
+export default function CustomRange({ values, step, min, max, onChange, disabled }: CustomRangeProps) {
 	return (
 		<Range
 			values={values}
 			step={step}
 			min={min}
+			disabled={disabled}
 			max={max}
-			onChange={onChange}
+			onChange={onChange || (() => {})}
 			renderTrack={({ props, children }) => (
 				<div
 					onMouseDown={props.onMouseDown}

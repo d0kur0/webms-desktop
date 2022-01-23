@@ -1,3 +1,4 @@
+import { useStore } from "@nanostores/react";
 import { File } from "webm-finder";
 
 import "./FileView.css";
@@ -10,6 +11,8 @@ import { ImEyeBlocked } from "react-icons/im";
 import { IoMdVolumeOff } from "react-icons/io";
 import { IoVolumeMedium } from "react-icons/io5";
 
+import { userStore } from "stores/user";
+
 import { isImage } from "utils/file";
 import { openSourceThread } from "utils/openSourceThread";
 
@@ -19,15 +22,30 @@ type FileViewProps = {
 	file: File;
 	onNextFile: () => void;
 	onPreviousFile: () => void;
+	onEnd?: () => void;
+	imageAsVideo?: boolean;
 	buttonsRender?: JSX.Element;
 };
 
-export default function FileView({ file, onNextFile, onPreviousFile, buttonsRender }: FileViewProps) {
+const IMAGE_DURATION_THEN_EMULATE_VIDEO = 8;
+
+export default function FileView({
+	file,
+	onNextFile,
+	onPreviousFile,
+	buttonsRender,
+	imageAsVideo,
+	onEnd,
+}: FileViewProps) {
+	const user = useStore(userStore);
+
 	const isFileImage = isImage(file.url);
 	const videoRef = useRef<HTMLVideoElement>(null);
 
-	const [paused, setPaused] = useState(false);
-	const [volume, setVolume] = useState(localStorage.volumeDisabled ? 0 : +localStorage.volume || 0.1);
+	const [paused, setPaused] = useState(user.isInteracted);
+	const [volume, setVolume] = useState(
+		localStorage.volumeDisabled ? 0 : +localStorage.volume || 0.1
+	);
 	const [duration, setDuration] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
 
@@ -37,6 +55,32 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 		setPaused(videoRef.current.paused);
 	}, [videoRef, file]);
 
+	useEffect(() => {
+		if (!(isFileImage && imageAsVideo)) return;
+
+		let timeout: NodeJS.Timeout;
+		let iteration = 0;
+
+		const timeoutCallback = () => {
+			iteration++;
+			setCurrentTime(iteration);
+
+			const nextIteration = () => {
+				timeout = setTimeout(timeoutCallback, 1000);
+			};
+
+			const stopIteration = () => {
+				setCurrentTime(0);
+				onEnd && onEnd();
+			};
+
+			iteration < IMAGE_DURATION_THEN_EMULATE_VIDEO ? nextIteration() : stopIteration();
+		};
+
+		timeoutCallback();
+		return () => clearInterval(timeout);
+	}, [file]);
+
 	const onPlayPause: MouseEventHandler<HTMLButtonElement> = event => {
 		setPaused(!paused);
 		paused || videoRef.current.pause();
@@ -45,9 +89,13 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 
 	const onPause = () => setPaused(true);
 	const onPlay = () => setPaused(false);
-	const onEnded = () => setPaused(true);
+	const onEnded = () => {
+		onEnd && onEnd();
+		setPaused(true);
+	};
 
-	const onLoadedMetaData = ({ currentTarget }: SyntheticEvent<HTMLVideoElement>) => setDuration(currentTarget.duration);
+	const onLoadedMetaData = ({ currentTarget }: SyntheticEvent<HTMLVideoElement>) =>
+		setDuration(currentTarget.duration);
 	const onTimeUpdate = ({ currentTarget }: SyntheticEvent<HTMLVideoElement>) =>
 		setCurrentTime(currentTarget.currentTime);
 
@@ -91,7 +139,7 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 							onEnded={onEnded}
 							onTimeUpdate={onTimeUpdate}
 							onLoadedMetadata={onLoadedMetaData}
-							autoPlay={true}
+							autoPlay={user.isInteracted}
 							ref={videoRef}
 							src={file.url}
 						/>
@@ -102,7 +150,9 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 			<div className="file-viewer__info">
 				<div className="file-viewer__name">{file.name || "Empty name"}</div>
 				<div className="controls__buttons-group">
-					<button onClick={() => openSourceThread(file.rootThread.url)} className="controls__button">
+					<button
+						onClick={() => openSourceThread(file.rootThread.url)}
+						className="controls__button">
 						<FiExternalLink /> {file.rootThread.subject || "Empty thread name"}
 					</button>
 
@@ -121,7 +171,9 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 			<div className="controls">
 				<div className="controls__body">
 					<div className="controls__buttons-group">
-						<button onClick={onPreviousFile} className="controls__button controls__button--only-icon">
+						<button
+							onClick={onPreviousFile}
+							className="controls__button controls__button--only-icon">
 							<HiArrowNarrowLeft />
 						</button>
 
@@ -132,11 +184,28 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 						{isFileImage ? (
 							<React.Fragment />
 						) : (
-							<button onClick={onPlayPause} className="controls__button controls__button--only-icon">
+							<button
+								onClick={onPlayPause}
+								className="controls__button controls__button--only-icon">
 								{paused ? <BsPlayFill /> : <BsFillPauseFill />}
 							</button>
 						)}
 					</div>
+
+					{isFileImage && imageAsVideo ? (
+						<div className="controls__progress">
+							<CustomRange
+								min={0}
+								disabled={true}
+								max={IMAGE_DURATION_THEN_EMULATE_VIDEO}
+								step={0.1}
+								values={[currentTime]}
+								onChange={() => {}}
+							/>
+						</div>
+					) : (
+						<React.Fragment />
+					)}
 
 					{isFileImage ? (
 						<React.Fragment />
@@ -157,7 +226,13 @@ export default function FileView({ file, onNextFile, onPreviousFile, buttonsRend
 								<button onClick={onDisableVolume} className="controls__volume-icon">
 									{volume ? <IoVolumeMedium /> : <IoMdVolumeOff />}
 								</button>
-								<CustomRange min={0} max={1} step={0.1} values={[volume]} onChange={onChangeVolume} />
+								<CustomRange
+									min={0}
+									max={1}
+									step={0.1}
+									values={[volume]}
+									onChange={onChangeVolume}
+								/>
 							</div>
 						</React.Fragment>
 					)}

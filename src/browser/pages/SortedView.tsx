@@ -32,7 +32,7 @@ export default function SortedView() {
 	const onPreviousFile = () => setOpenedFileIndex(openedFileIndex - 1);
 	const onNextFile = () => {
 		const nextIndex = openedFileIndex + 1;
-		partialFiles[nextIndex] || setOffset(offset + FILES_LIMIT);
+		partialFiles[nextIndex + 2] || setOffset(offset + FILES_LIMIT);
 		setOpenedFileIndex(nextIndex);
 	};
 
