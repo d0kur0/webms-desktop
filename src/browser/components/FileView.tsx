@@ -14,6 +14,7 @@ import { IoVolumeMedium } from "react-icons/io5";
 import { userStore } from "stores/user";
 
 import { isImage } from "utils/file";
+import { formatSeconds } from "utils/formatSeconds";
 import { openSourceThread } from "utils/openSourceThread";
 
 import CustomRange from "components/CustomRange";
@@ -23,6 +24,7 @@ type FileViewProps = {
 	onNextFile: () => void;
 	onPreviousFile: () => void;
 	onEnd?: () => void;
+	onError?: () => void;
 	imageAsVideo?: boolean;
 	buttonsRender?: JSX.Element;
 };
@@ -36,6 +38,7 @@ export default function FileView({
 	buttonsRender,
 	imageAsVideo,
 	onEnd,
+	onError,
 }: FileViewProps) {
 	const user = useStore(userStore);
 
@@ -50,6 +53,8 @@ export default function FileView({
 	const [currentTime, setCurrentTime] = useState(0);
 
 	useEffect(() => {
+		setCurrentTime(0);
+		setDuration(0);
 		if (!videoRef.current) return;
 		videoRef.current.volume = volume;
 		setPaused(videoRef.current.paused);
@@ -87,6 +92,7 @@ export default function FileView({
 		paused && videoRef.current.play();
 	};
 
+	const onVideoError = () => onError && onError;
 	const onPause = () => setPaused(true);
 	const onPlay = () => setPaused(false);
 	const onEnded = () => {
@@ -134,14 +140,15 @@ export default function FileView({
 				<div className="file-viewer__container">
 					<div className="file-view__video">
 						<video
+							ref={videoRef}
+							src={file.url}
 							onPlay={onPlay}
 							onPause={onPause}
 							onEnded={onEnded}
+							onError={onVideoError}
+							autoPlay={user.isInteracted}
 							onTimeUpdate={onTimeUpdate}
 							onLoadedMetadata={onLoadedMetaData}
-							autoPlay={user.isInteracted}
-							ref={videoRef}
-							src={file.url}
 						/>
 					</div>
 				</div>
@@ -212,7 +219,7 @@ export default function FileView({
 					) : (
 						<React.Fragment>
 							<div className="controls__timeline">
-								<span className="controls__timeline-value">00:00</span>
+								<span className="controls__timeline-value">{formatSeconds(currentTime)}</span>
 								<CustomRange
 									min={0}
 									max={duration || 1}
@@ -220,7 +227,7 @@ export default function FileView({
 									values={[currentTime]}
 									onChange={onChangeCurrentTime}
 								/>
-								<span className="controls__timeline-value">00:00</span>
+								<span className="controls__timeline-value">{formatSeconds(duration)}</span>
 							</div>
 							<div className="controls__volume">
 								<button onClick={onDisableVolume} className="controls__volume-icon">

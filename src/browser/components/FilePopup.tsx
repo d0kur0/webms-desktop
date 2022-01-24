@@ -28,10 +28,10 @@ export function FileOverlay({ onClose, onNextFile, onPreviousFile, file }: FileO
 		return () => document.body.classList.remove("lock-body-scroll");
 	}, []);
 
-	const handleClose = () => {
+	function handleClose() {
 		document.body.classList.remove("lock-body-scroll");
 		onClose();
-	};
+	}
 
 	return (
 		<div className="file-popup__overlay">
@@ -58,12 +58,23 @@ export default function FilePopup({ file, onOpen }: FilePopupProps) {
 
 	const onImageLoaded = () => setIsLoaded(true);
 
+	useEffect(() => {
+		setIsLoaded(false);
+	}, [file.url]);
+
 	return (
 		<div onClick={onOpen} className="file-popup" title={file.name}>
-			<img onLoad={onImageLoaded} alt={file.name} className="file-popup__image" src={file.previewUrl} />
+			<img
+				onLoad={onImageLoaded}
+				alt={file.name}
+				className="file-popup__image"
+				src={file.previewUrl}
+			/>
 			{isLoaded ? "" : <Loader />}
 			<span className="file-popup__board">{file.rootThread.board}</span>
-			<span className={`file-popup__type file-popup__type--${isFileImage ? "image" : "video"}`}>{fileType}</span>
+			<span className={`file-popup__type file-popup__type--${isFileImage ? "image" : "video"}`}>
+				{fileType}
+			</span>
 		</div>
 	);
 }

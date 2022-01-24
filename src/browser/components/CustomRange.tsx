@@ -10,7 +10,18 @@ type CustomRangeProps = {
 	disabled?: boolean;
 };
 
-export default function CustomRange({ values, step, min, max, onChange, disabled }: CustomRangeProps) {
+export default function CustomRange({
+	values,
+	step,
+	min,
+	max,
+	onChange,
+	disabled,
+}: CustomRangeProps) {
+	if (values?.[0] > max) {
+		values[0] = max;
+	}
+
 	return (
 		<Range
 			values={values}
