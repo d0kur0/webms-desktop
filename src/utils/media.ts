@@ -2,7 +2,7 @@ import { app } from "electron";
 import { JSONFile, Low } from "lowdb";
 import path from "path";
 import "polyfills/fetch";
-import { Files, Threads, twoChannelFactory } from "webm-finder";
+import { Files, Thread, VendorImplementation } from "webm-finder";
 
 import { EventsMap } from "types/events";
 import { AllowedFileExtensions, EnabledBoards, MediaCache } from "types/media";
@@ -10,8 +10,9 @@ import { AllowedFileExtensions, EnabledBoards, MediaCache } from "types/media";
 import { invokeBrowserEvent } from "utils/eventEmitter";
 
 const mediaCacheFilePath = path.join(app.getPath("home"), "/.webms-desktop/mediaCache.json");
-const twoChannel = twoChannelFactory({ requiredFileTypes: [...AllowedFileExtensions] });
 const MAX_FILES_CHUNK_SIZE = 30;
+
+const vendorProps = { requiredFileTypes: [...AllowedFileExtensions] };
 
 export const mediaGetCache = async (): Promise<MediaCache> => {
 	const adapter = new JSONFile<MediaCache>(mediaCacheFilePath);
@@ -32,16 +33,24 @@ export const mediaSetCache = async (files: Files): Promise<void> => {
 	return await db.write();
 };
 
+type ThreadsExtended = (Thread & { vendor: VendorImplementation })[];
+
 export const mediaUpdate = async (): Promise<Files> => {
 	invokeBrowserEvent(EventsMap.MEDIA_SEND_STATE, "startUpdate");
-	const threadsQueue: Promise<Threads>[] = [];
+	const threadsQueue: Promise<ThreadsExtended>[] = [];
 
-	for (let board of EnabledBoards) {
-		threadsQueue.push(twoChannel.fetchThreads(board));
+	for (let { vendor, boards } of EnabledBoards) {
+		for (let board of boards) {
+			threadsQueue.push(
+				vendor(vendorProps)
+					.fetchThreads(board)
+					.then(threads => threads.map(thread => ({ ...thread, vendor })))
+			);
+		}
 	}
 
 	const threadsMap = await Promise.allSettled(threadsQueue);
-	const threads: Threads = [];
+	const threads: ThreadsExtended = [];
 
 	for (let boardThreads of threadsMap.values()) {
 		if (boardThreads.status == "rejected") continue;
@@ -53,10 +62,12 @@ export const mediaUpdate = async (): Promise<Files> => {
 		if (!threads.length) return;
 
 		const threadsChunk = threads.splice(0, MAX_FILES_CHUNK_SIZE);
-		const queue = threadsChunk.map(thread =>
-			twoChannel.fetchFiles(thread).then(fetchedFiles => {
-				files.push(...fetchedFiles);
-			})
+		const queue = threadsChunk.map(({ vendor, ...thread }) =>
+			vendor(vendorProps)
+				.fetchFiles(thread)
+				.then(fetchedFiles => {
+					files.push(...fetchedFiles);
+				})
 		);
 
 		await Promise.allSettled(queue);

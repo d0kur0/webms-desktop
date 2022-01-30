@@ -1,6 +1,15 @@
-import { Files } from "webm-finder";
+import { Files, VendorImplementation, fourChannelFactory, twoChannelFactory } from "webm-finder";
 
-export const EnabledBoards = ["media"] as const;
+type EnabledBoardsStruct = {
+	vendor: VendorImplementation;
+	boards: string[];
+}[];
+
+export const EnabledBoards: EnabledBoardsStruct = [
+	// { vendor: twoChannelFactory, boards: ["media"] },
+	{ vendor: fourChannelFactory, boards: ["b"] },
+];
+
 export const AllowedFileExtensions = ["webm", "mp4", "jpeg", "jpg", "png", "gif"] as const;
 
 export type MediaCache = {

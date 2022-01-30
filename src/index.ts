@@ -1,4 +1,4 @@
-import { BrowserWindow, app } from "electron";
+import { BrowserWindow, app, session } from "electron";
 
 import "electron/events";
 
@@ -45,6 +45,14 @@ const createWindow = (): void => {
 	mainWindow.setMenu(null);
 
 	isDevelopment && mainWindow.webContents.openDevTools();
+
+	const filter = {
+		urls: ["https://*.github.com/*", "https://*.4cdn.org/*"],
+	};
+
+	session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
+		callback({ requestHeaders: {} });
+	});
 };
 
 appLock || app.quit();
