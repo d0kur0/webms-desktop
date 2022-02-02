@@ -10,6 +10,7 @@ import { HiArrowNarrowLeft, HiArrowNarrowRight, HiOutlineSaveAs } from "react-ic
 import { ImEyeBlocked } from "react-icons/im";
 import { IoMdVolumeOff } from "react-icons/io";
 import { IoVolumeMedium } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 import { userStore } from "stores/user";
 
@@ -157,10 +158,14 @@ export default function FileView({
 			<div className="file-viewer__info">
 				<div className="file-viewer__name">{file.name || "Empty name"}</div>
 				<div className="controls__buttons-group">
+					<Link to={`/thread/${file.rootThread.id}`} className="controls__button">
+						<ImEyeBlocked /> Содержимое треда
+					</Link>
+
 					<button
 						onClick={() => openSourceThread(file.rootThread.url)}
 						className="controls__button">
-						<FiExternalLink /> {file.rootThread.subject || "Empty thread name"}
+						<FiExternalLink /> {file.rootThread.subject.substring(0, 50) || "Empty thread name"}
 					</button>
 
 					<button className="controls__button">

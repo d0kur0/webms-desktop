@@ -47,6 +47,7 @@ function App() {
 						<Route path="/sortedView" element={<SortedView />} />
 						<Route path="/savedFiles" element={<SavedFiles />} />
 						<Route path="/preferences" element={<Preferences />} />
+						<Route path="/thread/:threadId" element={<SortedView />} />
 					</Routes>
 				</div>
 			</div>

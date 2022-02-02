@@ -5,6 +5,7 @@ import { Files } from "webm-finder";
 import "./SortedView.css";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { SortingRules, SortingRulesDefault } from "types/browser/sortings";
 
@@ -18,6 +19,7 @@ import SortingVariants from "components/SortingVariants";
 const FILES_LIMIT = 70;
 
 export default function SortedView() {
+	const { threadId } = useParams<{ threadId?: string }>();
 	const [sortingRules, setSortingRules] = useState<SortingRules>(SortingRulesDefault);
 
 	const files = useStore(filesStore);
@@ -32,8 +34,13 @@ export default function SortedView() {
 	const [openedFileIndex, setOpenedFileIndex] = useState<number | null>(null);
 
 	useEffect(() => {
-		setSortedFiles(sortingByRules(sortingRules, files));
-	}, [files]);
+		setSortedFiles(
+			sortingByRules(
+				sortingRules,
+				files.filter(file => (threadId ? file.rootThread.id === +threadId : true))
+			)
+		);
+	}, [files, threadId]);
 
 	useEffect(() => {
 		setPartialFiles(sortedFiles.slice(offset, FILES_LIMIT));
