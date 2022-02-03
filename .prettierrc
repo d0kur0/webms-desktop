@@ -1,24 +1,9 @@
 {
-	"useTabs": true,
-	"printWidth": 100,
-	"tabWidth": 2,
-	"semi": true,
-	"singleQuote": false,
-	"bracketSpacing": true,
-	"jsxBracketSameLine": true,
-	"arrowParens": "avoid",
-	"importOrderSeparation": true,
-	"importOrderSortSpecifiers": true,
-	"importOrder": [
-		"^(.*)\\.css$",
-		"^(react|react-dom)(.*)$",
-		"^types/(.*)$",
-		"^electron/(.*)$",
-		"^browser/(.*)$",
-		"^stores/(.*)$",
-		"^utils/(.*)$",
-		"^pages/(.*)$",
-		"^components/(.*)$",
-		"^[./]"
-	]
+  "printWidth": 120,
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "jsxSingleQuote": false,
+  "svelteSortOrder": "styles-scripts-markup",
+  "svelteStrictMode": true,
+  "svelteAllowShorthand": false
 }
