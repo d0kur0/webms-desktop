@@ -1,17 +1,16 @@
-import { useStore } from "@nanostores/react";
 import { useOnAnyInteraction } from "hooks/useOnAnyInteraction";
 
 import "./App.css";
 
 import * as React from "react";
 import { useEffect } from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
 import { HashRouter as BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { EventsMap } from "types/events";
 
-import { filesStore, setFiles } from "stores/files";
-import { setIsInteracted, userStore } from "stores/user";
+import { setFiles } from "stores/files";
+import { setIsInteracted } from "stores/user";
 
 import { handleBrowserEvent, invokeElectronEvent } from "utils/eventEmitter";
 
@@ -55,4 +54,4 @@ function App() {
 	);
 }
 
-ReactDOM.render(<App />, document.body);
+render(<App />, document.body);

@@ -7,7 +7,7 @@ type EnabledBoardsStruct = {
 
 export const EnabledBoards: EnabledBoardsStruct = [
 	// { vendor: twoChannelFactory, boards: ["media"] },
-	{ vendor: fourChannelFactory, boards: ["b"] },
+	{ vendor: twoChannelFactory, boards: ["mu"] },
 ];
 
 export const AllowedFileExtensions = ["webm", "mp4", "jpeg", "jpg", "png", "gif"] as const;
