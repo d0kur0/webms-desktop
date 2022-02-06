@@ -103,6 +103,7 @@ export default function FileView({
 
 	const onLoadedMetaData = ({ currentTarget }: SyntheticEvent<HTMLVideoElement>) =>
 		setDuration(currentTarget.duration);
+
 	const onTimeUpdate = ({ currentTarget }: SyntheticEvent<HTMLVideoElement>) =>
 		setCurrentTime(currentTarget.currentTime);
 
@@ -165,7 +166,7 @@ export default function FileView({
 					<button
 						onClick={() => openSourceThread(file.rootThread.url)}
 						className="controls__button">
-						<FiExternalLink /> {file.rootThread.subject.substring(0, 50) || "Empty thread name"}
+						<FiExternalLink /> {file.rootThread.subject.substring(0, 20) || "Empty thread name"}
 					</button>
 
 					<button className="controls__button">

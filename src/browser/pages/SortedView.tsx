@@ -19,44 +19,29 @@ import SortingVariants from "components/SortingVariants";
 const FILES_LIMIT = 70;
 
 export default function SortedView() {
+	const allFiles = useStore(filesStore);
 	const { threadId } = useParams<{ threadId?: string }>();
-	const [sortingRules, setSortingRules] = useState<SortingRules>(SortingRulesDefault);
-
-	const files = useStore(filesStore);
-	const [sortedFiles, setSortedFiles] = useState<Files>([]);
 
 	const loadingRef = useRef<HTMLDivElement>(null);
-	const onScreen = useOnScreen(loadingRef);
+	const loadingVisible = useOnScreen(loadingRef);
 
 	const [offset, setOffset] = useState(0);
-	const [partialFiles, setPartialFiles] = useState<Files>([]);
-
 	const [openedFileIndex, setOpenedFileIndex] = useState<number | null>(null);
+	const [sortingRules, setSortingRules] = useState<SortingRules>(SortingRulesDefault);
+
+	const filesForRender = useMemo(() => {
+		const files = sortingByRules(sortingRules, allFiles);
+		return files.slice(0, offset + FILES_LIMIT);
+	}, [allFiles, sortingRules, offset]);
 
 	useEffect(() => {
-		setSortedFiles(
-			sortingByRules(
-				sortingRules,
-				files.filter(file => (threadId ? file.rootThread.id === +threadId : true))
-			)
-		);
-	}, [files, threadId]);
+		setSortingRules(rules => ({ ...rules, threadId: +threadId }));
+		setOpenedFileIndex(null);
+	}, [threadId]);
 
 	useEffect(() => {
-		setPartialFiles(sortedFiles.slice(offset, FILES_LIMIT));
-	}, [sortedFiles]);
-
-	useEffect(() => {
-		onScreen && partialFiles.length && setOffset(offset + FILES_LIMIT);
-	}, [onScreen]);
-
-	useEffect(() => {
-		setPartialFiles([...partialFiles, ...sortedFiles.slice(offset, offset + FILES_LIMIT)]);
-	}, [offset]);
-
-	useEffect(() => {
-		setSortedFiles([...sortingByRules(sortingRules, files)]);
-	}, [sortingRules]);
+		loadingVisible && filesForRender.length && setOffset(offset + FILES_LIMIT);
+	}, [loadingVisible]);
 
 	function onCloseOverlay() {
 		setOpenedFileIndex(null);
@@ -72,7 +57,7 @@ export default function SortedView() {
 
 	function onNextFile() {
 		const nextIndex = openedFileIndex + 1;
-		partialFiles[nextIndex + 2] || setOffset(offset + FILES_LIMIT);
+		filesForRender[nextIndex + 2] || setOffset(offset + FILES_LIMIT);
 		setOpenedFileIndex(nextIndex);
 	}
 
@@ -82,27 +67,27 @@ export default function SortedView() {
 
 	return (
 		<React.Fragment>
+			{threadId ? <div className="sorted-view__thread-info">You see: {threadId}</div> : ""}
+
 			<SortingVariants onChange={onChangeSortingRules} />
 
 			<div className="sorted-view">
-				{partialFiles[openedFileIndex] ? (
+				{filesForRender[openedFileIndex] ? (
 					<FileOverlay
 						onPreviousFile={onPreviousFile}
 						onNextFile={onNextFile}
 						onClose={onCloseOverlay}
-						file={partialFiles[openedFileIndex]}
+						file={filesForRender[openedFileIndex]}
 					/>
 				) : (
 					<React.Fragment />
 				)}
 
-				{partialFiles.map((file, key) => (
+				{filesForRender.map((file, key) => (
 					<FilePopup onOpen={() => onOpenOverlay(key)} key={key} file={file} />
 				))}
 
-				<div ref={loadingRef} className="sorted-view__loading">
-					Loading ...
-				</div>
+				<div ref={loadingRef} className="sorted-view__loading" />
 			</div>
 		</React.Fragment>
 	);

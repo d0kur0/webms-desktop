@@ -10,7 +10,8 @@ export const EnabledBoards: EnabledBoardsStruct = [
 	{ vendor: twoChannelFactory, boards: ["mu"] },
 ];
 
-export const AllowedFileExtensions = ["webm", "mp4", "jpeg", "jpg", "png", "gif"] as const;
+//export const AllowedFileExtensions = ["webm", "mp4", "jpeg", "jpg", "png", "gif"] as const;
+export const AllowedFileExtensions = ["webm", "mp4"] as const;
 
 export type MediaCache = {
 	revisionTime: number;
