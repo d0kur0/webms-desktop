@@ -16,11 +16,15 @@
 .vendor {
 	flex: 1 1 0;
 	display: flex;
-	flex-direction: column;
+	flex-wrap: wrap;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	gap: 10px;
+}
+
+.vendor__name {
+	width: 100%;
 }
 
 .vendor__name,
@@ -37,19 +41,42 @@
 }
 
 .vendor__board {
-	color: var(--text-color);
-	width: 100%;
+	color: var(--accent-revert-color);
+	padding: 2px 11px;
 	cursor: pointer;
 	border: none;
+	transition: 0.2s;
+	border-radius: 3px;
+	background-color: var(--accent-color);
+	position: relative;
+}
+
+.vendor__board:hover {
+	opacity: 0.9;
+}
+
+.vendor__board--disabled {
+	opacity: 0.7;
+}
+
+.vendor__board--disabled::after {
+	content: "";
+	position: absolute;
+	width: 110%;
+	left: -4px;
+	height: 2px;
+	background-color: #000000;
+}
+
+.vendor__board--disabled:hover::after {
 	background-color: transparent;
-	padding: 0;
 }
 
 .vendor__status {
-	margin-right: 8px;
+	margin-right: 4px;
 	display: block;
-	width: 16px;
-	height: 16px;
+	width: 13px;
+	height: 13px;
 	border-radius: 50%;
 	border: 2px solid var(--accent-color);
 }

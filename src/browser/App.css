@@ -33,42 +33,34 @@ a:hover {
 }
 
 :root {
-	--background-color: #ececec;
-	--text-color: #1e1e1e;
-	--text-color-dark: #000000;
-	--accent-color: #de800f;
-	--accent-revert-color: #fff;
-
-	--toolbar-background: #ff8d00;
-	--toolbar-text-color: #3a1707;
-	--toolbar-accent-color: #ffe7c9;
+	--background-color: #222222;
+	--text-color: #d3d3d3;
+	--text-color-dark: #d1d1d1;
+	--accent-color: #24b4ff;
+	--accent-revert-color: #e9f1ff;
+	--toolbar-background: #2c2c2c;
+	--toolbar-text-color: #c9c9c9;
+	--toolbar-accent-color: #99a9c5;
 	--toolbar-text-color-light: #363636;
 	--toolbar-height: 26px;
-
 	--edge-padding: 10px;
-
 	--backdrop-background: #000000;
-
 	--badge-image-bg-color: #ff00cd;
 	--badge-image-color: #000;
 	--badge-video-bg-color: #1ec9c5;
 	--badge-video-color: #011818;
-
 	--controls-background: #000;
 	--controls-text-color: #fff;
 	--controls-height: 40px;
-
 	--controls-button-bg: #1c1c1c;
 	--controls-button-color: #fff;
-
 	--range-bg-color-before: #dddddd;
 	--range-bg-color-after: #383838;
 	--range-thumb-color: #ffffff;
-	--range-thumb-size: 14px;
+	--range-thumb-size: 0px;
 	--range-track-size: 8px;
-
-	--loader-background: #ffebd3;
-	--loader-color: #de800f;
+	--loader-background: #323232;
+	--loader-color: #669dff;
 }
 
 @keyframes fadeout {

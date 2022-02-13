@@ -29,6 +29,7 @@ export function invokeElectronEvent<T extends EventsMap>(
 	event: T,
 	props: EventsProps[T]
 ): Promise<EventsReturnValues[T]> {
+	console.log(`invokeElectronEvent: ${event}; with props ${props}`);
 	return ipcRenderer.invoke(event, props);
 }
 

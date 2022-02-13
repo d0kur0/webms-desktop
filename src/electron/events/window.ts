@@ -3,7 +3,7 @@ import { EventsMap } from "types/events";
 import { handleElectronEvent } from "utils/eventEmitter";
 import { getMainWindow } from "utils/getMainWindow";
 
-handleElectronEvent(EventsMap.WINDOW_MINIMIZE, (event, args) => {
+handleElectronEvent(EventsMap.WINDOW_MINIMIZE, () => {
 	getMainWindow().minimize();
 });
 
