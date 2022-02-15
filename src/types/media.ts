@@ -6,7 +6,7 @@ type Board = {
 	enabled: boolean;
 };
 
-type EnabledBoardsStruct = {
+export type EnabledBoardsStruct = {
 	vendor: VendorImplementation;
 	boards: Board[];
 }[];
@@ -229,7 +229,7 @@ export type MediaCache = {
 };
 
 type MediaSettingsBoards = {
-	vendor: string;
+	vendor: "twoChannelFactory" | "fourChannelFactory";
 	boards: Board[];
 }[];
 

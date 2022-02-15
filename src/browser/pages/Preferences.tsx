@@ -37,6 +37,8 @@ export default function Preferences() {
 
 			return { ...settings, allowedBoards };
 		});
+
+		invokeElectronEvent(EventsMap.MEDIA_SET_SETTINGS, settings).then(void 0);
 	};
 
 	return (
@@ -44,7 +46,7 @@ export default function Preferences() {
 			<div className="vendors">
 				{settings.allowedBoards.map(({ vendor, boards }) => (
 					<ul className="vendor">
-						<li className="vendor__name">{VENDOR_NAMES?.[vendor as keyof typeof VENDOR_NAMES]}</li>
+						<li className="vendor__name">{VENDOR_NAMES?.[vendor]}</li>
 						{boards.map((board, key) => (
 							<li key={key}>
 								<button

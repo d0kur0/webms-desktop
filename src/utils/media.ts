@@ -2,10 +2,22 @@ import { app } from "electron";
 import { JSONFile, Low } from "lowdb";
 import path from "path";
 import "polyfills/fetch";
-import { Files, Thread, VendorImplementation } from "webm-finder";
+import {
+	Files,
+	Thread,
+	VendorImplementation,
+	fourChannelFactory,
+	twoChannelFactory,
+} from "webm-finder";
 
 import { EventsMap } from "types/events";
-import { AllowedBoards, AllowedFileExtensions, MediaCache, MediaSettings } from "types/media";
+import {
+	AllowedBoards,
+	AllowedFileExtensions,
+	EnabledBoardsStruct,
+	MediaCache,
+	MediaSettings,
+} from "types/media";
 
 import { invokeBrowserEvent } from "utils/eventEmitter";
 
@@ -41,7 +53,10 @@ export const mediaGetSettings = async (): Promise<MediaSettings> => {
 	await db.read();
 	return (
 		db.data || {
-			allowedBoards: AllowedBoards.map(boards => ({ ...boards, vendor: boards.vendor.name })),
+			allowedBoards: AllowedBoards.map(boards => ({
+				...boards,
+				vendor: boards.vendor.name as "twoChannelFactory" | "fourChannelFactory",
+			})),
 			allowedFileExtensions: AllowedFileExtensions,
 		}
 	);
@@ -55,15 +70,21 @@ export const mediaSetSettings = async (mediaSettings: MediaSettings): Promise<vo
 };
 
 export const mediaUpdate = async (): Promise<Files> => {
-	const mediaSettings = await mediaGetSettings();
-
 	invokeBrowserEvent(EventsMap.MEDIA_SEND_STATE, "startUpdate");
+
+	const mediaSettings = await mediaGetSettings();
 	const threadsQueue: Promise<ThreadsExtended>[] = [];
 	const vendorProps = {
 		requiredFileTypes: mediaSettings.allowedFileExtensions.filter(e => e.enabled).map(e => e.value),
 	};
 
-	for (const { vendor, boards } of AllowedBoards) {
+	const vendors = { twoChannelFactory, fourChannelFactory };
+	const allowedBoards: EnabledBoardsStruct = mediaSettings.allowedBoards.map(board => ({
+		...board,
+		vendor: vendors[board.vendor],
+	}));
+
+	for (const { vendor, boards } of allowedBoards) {
 		for (const { name, enabled } of boards) {
 			if (!enabled) continue;
 			threadsQueue.push(
