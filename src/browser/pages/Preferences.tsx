@@ -1,9 +1,17 @@
+import { useStore } from "@nanostores/react";
+
 import "./Preferences.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { EventsMap } from "types/events";
-import { MediaSettings } from "types/media";
+
+import {
+	mediaSettingsStore,
+	mediaSettingsToggleBoard,
+	mediaSettingsToggleExtension,
+	setMediaSettings,
+} from "stores/settings";
 
 import { invokeElectronEvent } from "utils/eventEmitter";
 
@@ -12,52 +20,52 @@ const VENDOR_NAMES = {
 	fourChannelFactory: "Форч",
 };
 
-export default function Preferences() {
-	const [settings, setSettings] = useState<MediaSettings>({
-		allowedFileExtensions: [],
-		allowedBoards: [],
-	});
+export default function Preferences(): JSX.Element {
+	const settings = useStore(mediaSettingsStore);
 
 	useEffect(() => {
-		invokeElectronEvent(EventsMap.MEDIA_GET_SETTINGS, void 1).then(settings =>
-			setSettings(settings)
+		invokeElectronEvent(EventsMap.MEDIA_GET_SETTINGS, null).then(settings =>
+			setMediaSettings(settings)
 		);
 	}, []);
 
-	const handleToggleBoard = (vendor: string, boardName: string) => {
-		setSettings(settings => {
-			const allowedBoards = settings.allowedBoards.map(allowedBoard => {
-				const boards = allowedBoard.boards.map(board =>
-					board.name === boardName && allowedBoard.vendor === vendor
-						? { ...board, enabled: !board.enabled }
-						: board
-				);
-				return { ...allowedBoard, boards };
-			});
-
-			return { ...settings, allowedBoards };
-		});
-
-		invokeElectronEvent(EventsMap.MEDIA_SET_SETTINGS, settings).then(void 0);
-	};
-
 	return (
 		<div className="preferences">
-			<div className="vendors">
-				{settings.allowedBoards.map(({ vendor, boards }) => (
-					<ul className="vendor">
-						<li className="vendor__name">{VENDOR_NAMES?.[vendor]}</li>
+			<h2 className="preferences__title">Настройка досок</h2>
+
+			<div className="checkboxes" key={0}>
+				{settings?.allowedBoards.map(({ vendor, boards }) => (
+					<ul className="checkbox">
+						<li className="checkbox__name">{VENDOR_NAMES?.[vendor]}</li>
 						{boards.map((board, key) => (
 							<li key={key}>
 								<button
-									onClick={() => handleToggleBoard(vendor, board.name)}
-									className={`vendor__board ${board.enabled ? "" : "vendor__board--disabled"}`}>
+									onClick={() => mediaSettingsToggleBoard(vendor, board.name)}
+									className={`checkbox__value ${board.enabled ? "" : "checkbox__value--disabled"}`}>
 									{board.name} - {board.description}
 								</button>
 							</li>
 						))}
 					</ul>
 				))}
+			</div>
+
+			<h2 className="preferences__title">Настройка типов файлов</h2>
+
+			<div className="checkboxes" key={1}>
+				<ul className="checkbox">
+					{settings?.allowedFileExtensions.map((extension, key) => (
+						<li key={key}>
+							<button
+								onClick={() => mediaSettingsToggleExtension(extension.value)}
+								className={`checkbox__value ${
+									extension.enabled ? "" : "checkbox__value--disabled"
+								}`}>
+								{extension.value}
+							</button>
+						</li>
+					))}
+				</ul>
 			</div>
 		</div>
 	);
