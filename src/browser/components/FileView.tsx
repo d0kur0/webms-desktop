@@ -40,7 +40,7 @@ export default function FileView({
 	imageAsVideo,
 	onEnd,
 	onError,
-}: FileViewProps) {
+}: FileViewProps): JSX.Element {
 	const user = useStore(userStore);
 
 	const isFileImage = isImage(file.url);

@@ -27,11 +27,10 @@ export const filterFilesByThreadId = (files: Files, threadId: number) => {
 };
 
 export const sortingByRules = (rules: SortingRules, files: Files): Files => {
-	// sort by date
-	files = rules.date ? sortFilesByDateDesc(files) : sortFilesByDateAsc(files);
 	// filter by thread
 	files = rules.threadId ? filterFilesByThreadId(files, rules.threadId) : files;
+	// sort by date
+	files = rules.date ? sortFilesByDateDesc(files) : sortFilesByDateAsc(files);
 
-	//
 	return files;
 };

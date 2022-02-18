@@ -19,6 +19,7 @@ import RandomView from "pages/RandomView";
 import SavedFiles from "pages/SavedFiles";
 import SortedView from "pages/SortedView";
 
+import MediaState from "components/MediaState";
 import ToolBar from "components/ToolBar";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
 			<ToolBar />
 			<div className="app-root">
 				<div className="app-body">
+					<MediaState />
 					<Routes>
 						<Route path="/" element={<RandomView />} />
 						<Route path="/sortedView" element={<SortedView />} />

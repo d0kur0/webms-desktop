@@ -7,10 +7,11 @@ import { SortingRules, SortingRulesDefault } from "types/browser/sortings";
 
 type SortingVariantsProps = {
 	onChange?: (rules: SortingRules) => void;
+	rules?: SortingRules;
 };
 
-export default function SortingVariants({ onChange }: SortingVariantsProps) {
-	const [sortingRules, setSortingRules] = useState<SortingRules>(SortingRulesDefault);
+export default function SortingVariants({ onChange, rules }: SortingVariantsProps): JSX.Element {
+	const [sortingRules, setSortingRules] = useState<SortingRules>(rules || SortingRulesDefault);
 
 	useEffect(() => {
 		onChange && onChange(sortingRules);

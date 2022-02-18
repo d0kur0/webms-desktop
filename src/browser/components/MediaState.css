@@ -5,5 +5,7 @@
 	border-radius: 10px;
 	color: black;
 	background-color: #fff;
-	padding: 10px;
+	padding: 6px;
+	font-size: 0.8em;
+	z-index: 10;
 }

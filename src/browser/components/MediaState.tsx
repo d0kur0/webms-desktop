@@ -1,13 +1,12 @@
 import "./MediaState.css";
 
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { EventsMap } from "types/events";
 
 import { handleBrowserEvent } from "utils/eventEmitter";
 
-export default function MediaState() {
+export default function MediaState(): JSX.Element {
 	const [mediaState, setMediaState] = useState("");
 
 	useEffect(() => {
@@ -16,5 +15,11 @@ export default function MediaState() {
 		});
 	}, []);
 
-	return <div className="media-state">{mediaState}</div>;
+	return (
+		<React.Fragment>
+			{mediaState && mediaState !== "endUpdate" && (
+				<div className="media-state">Обновление файлов</div>
+			)}
+		</React.Fragment>
+	);
 }

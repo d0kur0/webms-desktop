@@ -1,6 +1,5 @@
 import { useStore } from "@nanostores/react";
 import { useOnScreen } from "hooks/useOnScreen";
-import { Files } from "webm-finder";
 
 import "./SortedView.css";
 
@@ -18,7 +17,7 @@ import SortingVariants from "components/SortingVariants";
 
 const FILES_LIMIT = 70;
 
-export default function SortedView() {
+export default function SortedView(): JSX.Element {
 	const allFiles = useStore(filesStore);
 	const { threadId } = useParams<{ threadId?: string }>();
 
@@ -27,7 +26,10 @@ export default function SortedView() {
 
 	const [offset, setOffset] = useState(0);
 	const [openedFileIndex, setOpenedFileIndex] = useState<number | null>(null);
-	const [sortingRules, setSortingRules] = useState<SortingRules>(SortingRulesDefault);
+	const [sortingRules, setSortingRules] = useState<SortingRules>({
+		...SortingRulesDefault,
+		threadId: +threadId || null,
+	});
 
 	const filesForRender = useMemo(() => {
 		const files = sortingByRules(sortingRules, allFiles);
@@ -67,9 +69,15 @@ export default function SortedView() {
 
 	return (
 		<React.Fragment>
-			{threadId ? <div className="sorted-view__thread-info">You see: {threadId}</div> : ""}
+			{threadId ? (
+				<div className="sorted-view__thread-info">
+					Открыт тред: {filesForRender?.[0]?.rootThread.subject}
+				</div>
+			) : (
+				<React.Fragment />
+			)}
 
-			<SortingVariants onChange={onChangeSortingRules} />
+			<SortingVariants rules={sortingRules} onChange={onChangeSortingRules} />
 
 			<div className="sorted-view">
 				{filesForRender[openedFileIndex] ? (
