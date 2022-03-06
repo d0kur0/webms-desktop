@@ -23,8 +23,8 @@ import { invokeBrowserEvent } from "utils/eventEmitter";
 
 type ThreadsExtended = (Thread & { vendor: VendorImplementation })[];
 
-const mediaCacheFilePath = path.join(app.getPath("home"), "/.webms-desktop/mediaCache.json");
-const mediaSettingsFilePath = path.join(app.getPath("home"), "/.webms-desktop/mediaSettings.json");
+const mediaCacheFilePath = path.join(app.getAppPath(), "/mediaCache.json");
+const mediaSettingsFilePath = path.join(app.getAppPath(), "/mediaSettings.json");
 
 const MAX_FILES_CHUNK_SIZE = 30;
 
