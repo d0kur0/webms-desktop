@@ -17,11 +17,12 @@ export default function CustomRange({
 	max,
 	onChange,
 	disabled,
-}: CustomRangeProps) {
+}: CustomRangeProps): JSX.Element {
 	if (values?.[0] > max) {
 		values[0] = max;
 	}
 
+	/* eslint-disable @typescript-eslint/no-empty-function */
 	return (
 		<Range
 			values={values}
@@ -57,7 +58,7 @@ export default function CustomRange({
 					</div>
 				</div>
 			)}
-			renderThumb={({ props, isDragged }) => (
+			renderThumb={({ props }) => (
 				<div
 					{...props}
 					style={{

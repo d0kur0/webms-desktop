@@ -19,7 +19,7 @@ import { invokeElectronEvent } from "utils/eventEmitter";
 
 import { ActiveLink } from "components/ActiveLink";
 
-export default function ToolBar() {
+export default function ToolBar(): JSX.Element {
 	const [isFullScreen, setFullScreen] = useState(false);
 
 	useEffect(() => {
@@ -56,9 +56,9 @@ export default function ToolBar() {
 				</ActiveLink>
 			</li>
 			<li>
-				<ActiveLink to="/savedFiles">
+				<ActiveLink to="/threads">
 					<HiOutlineSaveAs />
-					Сохраненное
+					Список тредов
 				</ActiveLink>
 			</li>
 			<li>

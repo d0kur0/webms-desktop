@@ -32,6 +32,7 @@
 	align-items: center;
 	color: var(--toolbar-text-color);
 	transition: 0.3s;
+	cursor: pointer;
 }
 
 .toolBar a:hover,

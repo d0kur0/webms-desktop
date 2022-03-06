@@ -10,7 +10,7 @@ import { filesStore } from "stores/files";
 
 import FileView from "components/FileView";
 
-export default function RandomView() {
+export default function RandomView(): JSX.Element {
 	const files = useStore(filesStore);
 	const [randomFiles, setRandomFiles] = useState<Files>([]);
 	const [currentIndex, setCurrentIndex] = useState(0);

@@ -16,8 +16,8 @@ import { handleBrowserEvent, invokeElectronEvent } from "utils/eventEmitter";
 
 import Preferences from "pages/Preferences";
 import RandomView from "pages/RandomView";
-import SavedFiles from "pages/SavedFiles";
 import SortedView from "pages/SortedView";
+import Threads from "pages/Threads";
 
 import MediaState from "components/MediaState";
 import ToolBar from "components/ToolBar";
@@ -46,7 +46,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<RandomView />} />
 						<Route path="/sortedView" element={<SortedView />} />
-						<Route path="/savedFiles" element={<SavedFiles />} />
+						<Route path="/threads" element={<Threads />} />
 						<Route path="/preferences" element={<Preferences />} />
 						<Route path="/thread/:threadId" element={<SortedView />} />
 					</Routes>

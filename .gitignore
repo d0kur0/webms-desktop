@@ -91,3 +91,5 @@ out/
 # trash
 .idea
 yarn.lock
+mediaCache.json
+mediaSettings.json

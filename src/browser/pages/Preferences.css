@@ -1,5 +1,20 @@
 .preferences {
 	padding: var(--edge-padding);
+	position: relative;
+}
+
+.update-button {
+	position: absolute;
+	right: 25px;
+	top: 15px;
+	cursor: pointer;
+	background-color: var(--accent-color);
+	font: inherit;
+	color: var(--accent-revert-color);
+	padding: 7px;
+	border-radius: 6px;
+	font-weight: bolder;
+	border: none;
 }
 
 .preferences__title {
@@ -34,7 +49,7 @@
 }
 
 .checkbox__name {
-	font-size: 0.8em;
+	font-size: 0.9em;
 	font-weight: bolder;
 	padding-bottom: 10px;
 	padding-top: 5px;
@@ -42,7 +57,7 @@
 
 .checkbox__value {
 	color: var(--accent-revert-color);
-	padding: 2px 11px;
+	padding: 5px 11px;
 	cursor: pointer;
 	border: none;
 	transition: 0.2s;
@@ -56,7 +71,7 @@
 }
 
 .checkbox__value--disabled {
-	opacity: 0.7;
+	filter: brightness(50%);
 }
 
 .vendor__status {

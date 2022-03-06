@@ -122,6 +122,7 @@
 }
 
 .controls__button {
+	font: inherit;
 	background-color: var(--controls-button-bg);
 	color: var(--controls-button-color);
 	border-radius: 4px;

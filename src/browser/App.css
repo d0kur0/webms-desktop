@@ -32,6 +32,10 @@ a:hover {
 	overflow: hidden;
 }
 
+button {
+	font: inherit;
+}
+
 :root {
 	--background-color: #222222;
 	--text-color: #d3d3d3;

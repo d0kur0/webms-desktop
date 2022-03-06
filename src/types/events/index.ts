@@ -12,6 +12,7 @@ export enum EventsMap {
 	MEDIA_SEND_STATE = "mediaSendState",
 	MEDIA_GET_SETTINGS = "mediaGetSettings",
 	MEDIA_SET_SETTINGS = "mediaSetSettings",
+	MEDIA_REQUEST_UPDATE = "mediaRequestUpdate",
 
 	APP_READY = "appReady",
 
@@ -28,6 +29,7 @@ export type EventsProps = {
 	[EventsMap.MEDIA_SEND_STATE]: "startUpdate" | "endUpdate";
 	[EventsMap.MEDIA_GET_SETTINGS]: void;
 	[EventsMap.MEDIA_SET_SETTINGS]: MediaSettings;
+	[EventsMap.MEDIA_REQUEST_UPDATE]: void;
 
 	[EventsMap.APP_READY]: void;
 
@@ -44,6 +46,7 @@ export type EventsReturnValues = {
 	[EventsMap.MEDIA_SEND_STATE]: void;
 	[EventsMap.MEDIA_GET_SETTINGS]: MediaSettings;
 	[EventsMap.MEDIA_SET_SETTINGS]: void;
+	[EventsMap.MEDIA_REQUEST_UPDATE]: void;
 
 	[EventsMap.APP_READY]: void;
 

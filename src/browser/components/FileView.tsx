@@ -5,9 +5,9 @@ import "./FileView.css";
 
 import React, { MouseEventHandler, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { BsFillPauseFill, BsPlayFill } from "react-icons/bs";
+import { CgEye } from "react-icons/cg";
 import { FiExternalLink } from "react-icons/fi";
-import { HiArrowNarrowLeft, HiArrowNarrowRight, HiOutlineSaveAs } from "react-icons/hi";
-import { ImEyeBlocked } from "react-icons/im";
+import { HiArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { IoMdVolumeOff } from "react-icons/io";
 import { IoVolumeMedium } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -17,6 +17,7 @@ import { userStore } from "stores/user";
 import { isImage } from "utils/file";
 import { formatSeconds } from "utils/formatSeconds";
 import { openSourceThread } from "utils/openSourceThread";
+import { normalizeThreadSubject } from "utils/thread";
 
 import CustomRange from "components/CustomRange";
 
@@ -87,7 +88,7 @@ export default function FileView({
 		return () => clearInterval(timeout);
 	}, [file]);
 
-	const onPlayPause: MouseEventHandler<HTMLButtonElement> = event => {
+	const onPlayPause: MouseEventHandler<HTMLButtonElement> = () => {
 		setPaused(!paused);
 		paused || videoRef.current.pause();
 		paused && videoRef.current.play();
@@ -159,22 +160,16 @@ export default function FileView({
 			<div className="file-viewer__info">
 				<div className="file-viewer__name">{file.name || "Empty name"}</div>
 				<div className="controls__buttons-group">
-					<Link to={`/thread/${file.rootThread.id}`} className="controls__button">
-						<ImEyeBlocked /> Содержимое треда
+					<Link
+						to={`/thread/${file.rootThread.id}`}
+						className="controls__button controls__button--only-icon">
+						<CgEye />
 					</Link>
 
 					<button
 						onClick={() => openSourceThread(file.rootThread.url)}
 						className="controls__button">
-						<FiExternalLink /> {file.rootThread.subject.substring(0, 20) || "Empty thread name"}
-					</button>
-
-					<button className="controls__button">
-						<ImEyeBlocked /> В фильтр
-					</button>
-
-					<button className="controls__button">
-						<HiOutlineSaveAs /> Сохранить
+						<FiExternalLink /> {normalizeThreadSubject(file.rootThread.subject, 40)}
 					</button>
 
 					{buttonsRender}
@@ -186,7 +181,7 @@ export default function FileView({
 					<div className="controls__buttons-group">
 						<button
 							onClick={onPreviousFile}
-							className="controls__button controls__button--only-icon">
+							className="controls__button controls__button--only-icon controls__button--only-icon">
 							<HiArrowNarrowLeft />
 						</button>
 
@@ -213,7 +208,6 @@ export default function FileView({
 								max={IMAGE_DURATION_THEN_EMULATE_VIDEO}
 								step={0.1}
 								values={[currentTime]}
-								onChange={() => {}}
 							/>
 						</div>
 					) : (

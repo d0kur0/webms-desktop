@@ -1,0 +1,31 @@
+.threads {
+	padding: var(--edge-padding);
+}
+
+.threads__filter-input {
+	margin: var(--edge-padding);
+	filter: brightness(110%);
+	background-color: var(--background-color);
+	color: var(--text-color);
+	border-radius: 4px;
+	padding: 8px;
+	width: 200px;
+	font: inherit;
+	border: 1px solid var(--accent-color);
+}
+
+.thread {
+	padding: var(--edge-padding);
+}
+
+.thread__row {
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 50px 1fr 50px;
+	margin: 20px 0;
+}
+
+.threads__more-button {
+	margin: var(--edge-padding);
+	cursor: pointer;
+}
